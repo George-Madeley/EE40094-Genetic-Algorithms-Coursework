@@ -1,5 +1,4 @@
 from random import randint, random
-from functools import reduce
 import numpy as np
 
 
@@ -24,7 +23,7 @@ class GeneticAlgorithm:
         """
         return np.random.randint(self.min, self.max, (self.population_size, self.individual_length))
 
-    def grade(self, target):
+    def calculateAverageGrade(self, target):
         "Find average error for a population."
         # Calculate the error of each individual in the population
         # and sum them together. The error is the sum of the differences
@@ -34,6 +33,17 @@ class GeneticAlgorithm:
 
         # Return the average error of the population
         return average
+    
+    def calculateMinGrade(self, target):
+        "Find minimum error for a population."
+        # Calculate the error of each individual in the population
+        # and sum them together. The error is the sum of the differences
+        # between each individual's sum and the target
+        errors = self.errors if type(self.errors) == np.ndarray else self.calculateErrors(target)
+        minGrade = np.min(errors)
+
+        # Return the min error of the population
+        return minGrade
 
     def calculateErrors(self, target):
         target = np.full(self.population_size, target)
