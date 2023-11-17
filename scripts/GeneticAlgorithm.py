@@ -69,7 +69,8 @@ class GeneticAlgorithm:
         # parameter. Using ceil() prevents us from retaining 0 individuals
         # when the retain parameter is low. I.e. it makes sure we always
         # retain at least one individual.
-        retain_length = int(self.population_size * retain)
+        retain_length = np.floor(self.population_size * retain)
+        retain_length = int(retain_length) if retain_length > 1 else 2
 
         # Retain the best individuals
         parents = sortedIndividuals[:retain_length]
@@ -81,7 +82,7 @@ class GeneticAlgorithm:
             # generation). This probability will be higher for individuals
             # with a high fitness, so these individuals are more likely to
             # be parents.
-            if random_select > random():
+            if random_select > random() and len(parents) < self.population_size - 1:
                 parents = np.append(parents, individual.reshape((1, 6)), axis=0)
 
         # mutate some individuals

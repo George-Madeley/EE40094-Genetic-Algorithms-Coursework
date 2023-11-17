@@ -1,27 +1,61 @@
 from GeneticAlgorithm import GeneticAlgorithm as GA
 import csv
 
-
-def vary_population(
+def test_with_population_count(
     target,
     individual_length,
     individual_min_value,
     individual_max_value,
     max_num_generations,
     fileName,
+    variation_name,
+    test_function
 ):
     with open(fileName, "w", newline="") as csvFile:
         csvWriter = csv.DictWriter(
-            csvFile, fieldnames=["population_count", "num_generations", "min fitness", "avg fitness"]
+            csvFile, fieldnames=["population_count", variation_name, "num_generations", "min fitness", "avg fitness"]
         )
         csvWriter.writeheader()
 
-    # Define the population counts to test
     population_counts = [base * 10 ** exp for exp in range(1, 6) for base in range(1, 10)]
     population_counts.append(1000000)
 
-    # Run the GA for each population count
     for population_count in population_counts:
+        test_function(
+            target,
+            population_count,
+            individual_length,
+            individual_min_value,
+            individual_max_value,
+            max_num_generations,
+            fileName,
+            variation_name
+        )
+
+    
+    
+
+def test_function(
+    target,
+    population_count,
+    individual_length,
+    individual_min_value,
+    individual_max_value,
+    max_num_generations,
+    fileName,
+    variation_name
+):
+    if variation_name == "mutation":
+        variation_values = [mutate/100 for mutate in range(0, 100)]
+        variation_values.append(1)
+    elif variation_name == "retain":
+        variation_values = [retain/100 for retain in range(2, 98)]
+    elif variation_name == "random_select":
+        variation_values = [random_select/100 for random_select in range(0, 90)]
+
+
+    # Run the GA for each population count
+    for variation_value in variation_values:
         # Create a new GA instance
         ga = GA(
             population_count,
@@ -37,7 +71,14 @@ def vary_population(
 
         # Evolve the population until we reach the target or the max number of generations
         while min_fitness > 0 and len(fitness_history) < max_num_generations:
-            ga.evolve(target)
+            if variation_name == "mutation":
+                ga.evolve(target, mutate=variation_value)
+            elif variation_name == "retain":
+                ga.evolve(target, retain=variation_value)
+            elif variation_name == "random_select":
+                ga.evolve(target, random_select=variation_value)
+            else:
+                ga.evolve(target)
             min_fitness = ga.calculateMinGrade(target)
             avg_fitness = ga.calculateAverageGrade(target)
             fitness_history.append({"min": min_fitness, "avg": avg_fitness})
@@ -45,196 +86,25 @@ def vary_population(
         # Print the results
         min_fitness_str = "{:.2f}".format(min_fitness)
         avg_fitness_str = "{:.2f}".format(avg_fitness)
-        print(f"Population Count: {population_count}\tMin Fitness: {min_fitness_str}\tAvg Fitness:\t{avg_fitness_str}\tGenerations: {len(fitness_history)}")
+        print(f"population_count: {population_count}\t{variation_name}: {variation_value}\tMin Fitness: {min_fitness_str}\tAvg Fitness: {avg_fitness_str}\tGenerations: {len(fitness_history)}")
 
         # Write the results to a CSV file
         with open(fileName, "a", newline="") as csvFile:
             csvWriter = csv.DictWriter(
-                csvFile, fieldnames=["population_count", "num_generations", "min fitness", "avg fitness"]
+                csvFile, fieldnames=["population_count", variation_name, "num_generations", "min fitness", "avg fitness"]
             )
             csvWriter.writerow(
                 {
                     "population_count": population_count,
+                    variation_name: variation_value,
                     "num_generations": len(fitness_history),
                     "min fitness": min_fitness,
                     "avg fitness": avg_fitness,
                 }
             )
+    
 
-def vary_mutation(
-    target,
-    population_count,
-    individual_length,
-    individual_min_value,
-    individual_max_value,
-    max_num_generations,
-    fileName,
-):
-    with open(fileName, "w", newline="") as csvFile:
-        csvWriter = csv.DictWriter(
-            csvFile, fieldnames=["mutate", "num_generations", "min fitness", "avg fitness"]
-        )
-        csvWriter.writeheader()
 
-    mutations = [mutate/100 for mutate in range(0, 100)]
-    mutations.append(1)
-
-    # Run the GA for each population count
-    for mutate in mutations:
-        # Create a new GA instance
-        ga = GA(
-            population_count,
-            individual_length,
-            individual_min_value,
-            individual_max_value,
-        )
-
-        # Run the GA
-        min_fitness = ga.calculateMinGrade(target)
-        avg_fitness = ga.calculateAverageGrade(target)
-        fitness_history = [{"min": min_fitness, "avg": avg_fitness}]
-
-        # Evolve the population until we reach the target or the max number of generations
-        while min_fitness > 0 and len(fitness_history) < max_num_generations:
-            ga.evolve(target, mutate=mutate)
-            min_fitness = ga.calculateMinGrade(target)
-            avg_fitness = ga.calculateAverageGrade(target)
-            fitness_history.append({"min": min_fitness, "avg": avg_fitness})
-
-        # Print the results
-        min_fitness_str = "{:.2f}".format(min_fitness)
-        avg_fitness_str = "{:.2f}".format(avg_fitness)
-        print(f"Mutate: {mutate}\tMin Fitness: {min_fitness_str}\tAvg Fitness:\t{avg_fitness_str}\tGenerations: {len(fitness_history)}")
-
-        # Write the results to a CSV file
-        with open(fileName, "a", newline="") as csvFile:
-            csvWriter = csv.DictWriter(
-                csvFile, fieldnames=["mutate", "num_generations", "min fitness", "avg fitness"]
-            )
-            csvWriter.writerow(
-                {
-                    "mutate": mutate,
-                    "num_generations": len(fitness_history),
-                    "min fitness": min_fitness,
-                    "avg fitness": avg_fitness,
-                }
-            )
-
-def vary_retain(
-    target,
-    population_count,
-    individual_length,
-    individual_min_value,
-    individual_max_value,
-    max_num_generations,
-    fileName,
-):
-    with open(fileName, "w", newline="") as csvFile:
-        csvWriter = csv.DictWriter(
-            csvFile, fieldnames=["retain", "num_generations", "min fitness", "avg fitness"]
-        )
-        csvWriter.writeheader()
-
-    retains = [retain/100 for retain in range(2, 98, 2)]
-
-    # Run the GA for each population count
-    for retain in retains:
-        # Create a new GA instance
-        ga = GA(
-            population_count,
-            individual_length,
-            individual_min_value,
-            individual_max_value,
-        )
-
-        # Run the GA
-        min_fitness = ga.calculateMinGrade(target)
-        avg_fitness = ga.calculateAverageGrade(target)
-        fitness_history = [{"min": min_fitness, "avg": avg_fitness}]
-
-        # Evolve the population until we reach the target or the max number of generations
-        while min_fitness > 0 and len(fitness_history) < max_num_generations:
-            ga.evolve(target, retain=retain)
-            min_fitness = ga.calculateMinGrade(target)
-            avg_fitness = ga.calculateAverageGrade(target)
-            fitness_history.append({"min": min_fitness, "avg": avg_fitness})
-
-        # Print the results
-        min_fitness_str = "{:.2f}".format(min_fitness)
-        avg_fitness_str = "{:.2f}".format(avg_fitness)
-        print(f"Retain: {retain}\tMin Fitness: {min_fitness_str}\tAvg Fitness:\t{avg_fitness_str}\tGenerations: {len(fitness_history)}")
-
-        # Write the results to a CSV file
-        with open(fileName, "a", newline="") as csvFile:
-            csvWriter = csv.DictWriter(
-                csvFile, fieldnames=["retain", "num_generations", "min fitness", "avg fitness"]
-            )
-            csvWriter.writerow(
-                {
-                    "retain": retain,
-                    "num_generations": len(fitness_history),
-                    "min fitness": min_fitness,
-                    "avg fitness": avg_fitness,
-                }
-            )
-
-def vary_random_select(
-    target,
-    population_count,
-    individual_length,
-    individual_min_value,
-    individual_max_value,
-    max_num_generations,
-    fileName,
-):
-    with open(fileName, "w", newline="") as csvFile:
-        csvWriter = csv.DictWriter(
-            csvFile, fieldnames=["random_select", "num_generations", "min fitness", "avg fitness"]
-        )
-        csvWriter.writeheader()
-
-    random_selects = [random_select/100 for random_select in range(0, 100)]
-
-    # Run the GA for each population count
-    for random_select in random_selects:
-        # Create a new GA instance
-        ga = GA(
-            population_count,
-            individual_length,
-            individual_min_value,
-            individual_max_value,
-        )
-
-        # Run the GA
-        min_fitness = ga.calculateMinGrade(target)
-        avg_fitness = ga.calculateAverageGrade(target)
-        fitness_history = [{"min": min_fitness, "avg": avg_fitness}]
-
-        # Evolve the population until we reach the target or the max number of generations
-        while min_fitness > 0 and len(fitness_history) < max_num_generations:
-            ga.evolve(target, random_select=random_select)
-            min_fitness = ga.calculateMinGrade(target)
-            avg_fitness = ga.calculateAverageGrade(target)
-            fitness_history.append({"min": min_fitness, "avg": avg_fitness})
-
-        # Print the results
-        min_fitness_str = "{:.2f}".format(min_fitness)
-        avg_fitness_str = "{:.2f}".format(avg_fitness)
-        print(f"Random Select: {random_select}\tMin Fitness: {min_fitness_str}\tAvg Fitness:\t{avg_fitness_str}\tGenerations: {len(fitness_history)}")
-
-        # Write the results to a CSV file
-        with open(fileName, "a", newline="") as csvFile:
-            csvWriter = csv.DictWriter(
-                csvFile, fieldnames=["random_select", "num_generations", "min fitness", "avg fitness"]
-            )
-            csvWriter.writerow(
-                {
-                    "random_select": random_select,
-                    "num_generations": len(fitness_history),
-                    "min fitness": min_fitness,
-                    "avg fitness": avg_fitness,
-                }
-            )
 
 target = 550
 # Size of the population
@@ -247,52 +117,22 @@ individual_max_value = 100
 # Number of generations
 max_num_generations = 10000
 
-fileName = "./results/population_count_log.csv"
+tests = [
+    {
+        "fileName": "results/random_select_with_population.csv",
+        "variation_name": "random_select"
+    }
+]
 
-print("Varying population count")
-
-vary_population(
-    target,
-    individual_length,
-    individual_min_value,
-    individual_max_value,
-    max_num_generations,
-    "./results/population_count_log.csv",
-)
-
-print("Varying mutation rate")
-
-vary_mutation(
-    target,
-    population_count,
-    individual_length,
-    individual_min_value,
-    individual_max_value,
-    max_num_generations,
-    "./results/mutation.csv",
-)
-
-print("Varying retain rate")
-
-vary_retain(
-    target,
-    population_count,
-    individual_length,
-    individual_min_value,
-    individual_max_value,
-    max_num_generations,
-    "./results/retain.csv",
-)
-
-print("Varying random select rate")
-
-vary_random_select(
-    target,
-    population_count,
-    individual_length,
-    individual_min_value,
-    individual_max_value,
-    max_num_generations,
-    "./results/random_select.csv",
-)
+for test in tests:
+    test_with_population_count(
+        target,
+        individual_length,
+        individual_min_value,
+        individual_max_value,
+        max_num_generations,
+        test["fileName"],
+        test["variation_name"],
+        test_function
+    )
 
