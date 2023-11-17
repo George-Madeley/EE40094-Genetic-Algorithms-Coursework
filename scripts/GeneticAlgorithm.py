@@ -28,7 +28,7 @@ class GeneticAlgorithm:
         # Calculate the error of each individual in the population
         # and sum them together. The error is the sum of the differences
         # between each individual's sum and the target
-        errors = self.errors if type(self.errors) == np.ndarray else self.calculateErrors(target)
+        errors = self.errors if type(self.errors) == np.ndarray else self.calculateErrorsElementwise(target)
         average = np.average(errors)
 
         # Return the average error of the population
@@ -39,7 +39,7 @@ class GeneticAlgorithm:
         # Calculate the error of each individual in the population
         # and sum them together. The error is the sum of the differences
         # between each individual's sum and the target
-        errors = self.errors if type(self.errors) == np.ndarray else self.calculateErrors(target)
+        errors = self.errors if type(self.errors) == np.ndarray else self.calculateErrorsElementwise(target)
         minGrade = np.min(errors)
 
         # Return the min error of the population
@@ -48,6 +48,12 @@ class GeneticAlgorithm:
     def calculateErrors(self, target):
         target = np.full(self.population_size, target)
         self.errors = np.abs(target - np.sum(self.population, axis=1))
+        return self.errors
+    
+    def calculateErrorsElementwise(self, target):
+        target = np.zeros((self.population_size, self.individual_length)) + target
+        self.errors = np.abs(target - self.population)
+        self.errors = np.sum(self.errors, axis=1)
         return self.errors
 
     def evolve(self, target, retain=0.2, random_select=0.05, mutate=0.01):
@@ -62,7 +68,7 @@ class GeneticAlgorithm:
         """
         # For each individual in the population, calculate the fitness
         # and sort the population in order of ascending fitness
-        errors = self.errors if type(self.errors) == np.ndarray else self.calculateErrors(target)
+        errors = self.errors if type(self.errors) == np.ndarray else self.calculateErrorsElementwise(target)
         sortedErrorsIndices = np.argsort(errors)
         sortedIndividuals = self.population[sortedErrorsIndices]
         # Calculate the number of individuals to retain, based on the retain

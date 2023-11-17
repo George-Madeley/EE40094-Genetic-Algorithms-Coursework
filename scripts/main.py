@@ -1,5 +1,6 @@
 from GeneticAlgorithm import GeneticAlgorithm as GA
 import csv
+import numpy as np
 
 def test_with_population_count(
     target,
@@ -103,36 +104,81 @@ def test_function(
                 }
             )
     
+def vary_population_count(
+    target,
+    individual_length,
+    individual_min_value,
+    individual_max_value,
+    max_num_generations,
+    fileName,
+):
+    with open(fileName, "w", newline="") as csvFile:
+        csvWriter = csv.DictWriter(
+            csvFile, fieldnames=["population_count", "num_generations", "min fitness", "avg fitness"]
+        )
+        csvWriter.writeheader()
 
+    population_counts = [base * 10 ** exp for exp in range(1, 6) for base in range(1, 10)]
+    population_counts.append(1000000)
 
+    for population_count in population_counts:
+        ga = GA(
+            population_count,
+            individual_length,
+            individual_min_value,
+            individual_max_value,
+        )
 
-target = 550
+        # Run the GA
+        min_fitness = ga.calculateMinGrade(target)
+        avg_fitness = ga.calculateAverageGrade(target)
+        fitness_history = [{"min": min_fitness, "avg": avg_fitness}]
+
+        # Evolve the population until we reach the target or the max number of generations
+        while min_fitness > 0 and len(fitness_history) < max_num_generations:
+            ga.evolve(target)
+            min_fitness = ga.calculateMinGrade(target)
+            avg_fitness = ga.calculateAverageGrade(target)
+            fitness_history.append({"min": min_fitness, "avg": avg_fitness})
+
+        # Print the results
+        min_fitness_str = "{:.2f}".format(min_fitness)
+        avg_fitness_str = "{:.2f}".format(avg_fitness)
+        print(f"population_count: {population_count}\tMin Fitness: {min_fitness_str}\tAvg Fitness: {avg_fitness_str}\tGenerations: {len(fitness_history)}")
+
+        # Write the results to a CSV file
+        with open(fileName, "a", newline="") as csvFile:
+            csvWriter = csv.DictWriter(
+                csvFile, fieldnames=["population_count", "num_generations", "min fitness", "avg fitness"]
+            )
+            csvWriter.writerow(
+                {
+                    "population_count": population_count,
+                    "num_generations": len(fitness_history),
+                    "min fitness": min_fitness,
+                    "avg fitness": avg_fitness,
+                }
+            )
+
+target = np.array([25, 18, 31, -14, 7, -19])
 # Size of the population
 population_count = 100
 # Number of genes in an individual
 individual_length = 6
 # Min and max possible values for each gene
-individual_min_value = 0
+individual_min_value = -100
 individual_max_value = 100
 # Number of generations
 max_num_generations = 10000
 
-tests = [
-    {
-        "fileName": "results/random_select_with_population.csv",
-        "variation_name": "random_select"
-    }
-]
+vary_population_count(
+    target,
+    individual_length,
+    individual_min_value,
+    individual_max_value,
+    max_num_generations,
+    "results/population_count.csv",
+)
 
-for test in tests:
-    test_with_population_count(
-        target,
-        individual_length,
-        individual_min_value,
-        individual_max_value,
-        max_num_generations,
-        test["fileName"],
-        test["variation_name"],
-        test_function
-    )
+
 
