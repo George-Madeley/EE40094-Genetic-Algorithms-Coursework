@@ -21,7 +21,7 @@ class GeneticAlgorithm:
         max: the maximum possible value in an individual's list of values
 
         """
-        return np.random.randint(self.min, self.max, (self.population_size, self.individual_length))
+        return np.random.randint(self.min, self.max, (self.population_size, self.individual_length), dtype=np.int8)
 
     def calculateAverageGrade(self, target):
         "Find average error for a population."
@@ -55,6 +55,17 @@ class GeneticAlgorithm:
         self.errors = np.abs(target - self.population)
         self.errors = np.sum(self.errors, axis=1)
         return self.errors
+    
+    def getBinaryRepresentation(self):
+        """
+        Return an 8-bit signed binary representation of the population using numpy.byte
+        """
+        byte_rep_population = []
+        for individual in self.population:
+            byte_rep_individual = [np.binary_repr(gene, width=8) for gene in individual]
+            byte_rep_population.append(byte_rep_individual)
+        byte_rep = np.array(byte_rep_population, dtype=np.str_)
+        return byte_rep
 
     def evolve(self, target, retain=0.2, random_select=0.05, mutate=0.01):
         """
