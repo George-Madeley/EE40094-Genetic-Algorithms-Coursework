@@ -1,5 +1,6 @@
 from random import randint, random
 import numpy as np
+import re
 
 
 class GeneticAlgorithm:
@@ -66,6 +67,54 @@ class GeneticAlgorithm:
             byte_rep_population.append(byte_rep_individual)
         byte_rep = np.array(byte_rep_population, dtype=np.str_)
         return byte_rep
+    
+    def numOfSchemaMatchesInGene(self, schema, gene):
+        """
+        Return the number of matches of schema in gene.
+        """
+        return len(re.findall(schema, gene))
+
+    def isGeneMemberOfSchema(self, gene, schema):
+        """
+        Return True if gene is a member of schema, False otherwise.
+        """
+        return re.match(schema, gene) is not None
+
+    def calculateNumberOfSchemaIndividuals(self, schema):
+        """
+        Return the number of individuals in the population that match the schema.
+        """
+        bit_population = self.getBinaryRepresentation()
+        num_matches = 0
+        for individual in bit_population:
+            for gene in individual:
+                if self.isGeneMemberOfSchema(gene, schema):
+                    num_matches += 1
+                    break
+        return num_matches
+    
+    def calculateNumberOfSchemaGenes(self, schema):
+        """
+        Return the number of genes in the population that match the schema.
+        """
+        bit_population = self.getBinaryRepresentation()
+        num_matches = 0
+        for individual in bit_population:
+            for gene in individual:
+                if self.isGeneMemberOfSchema(gene, schema):
+                    num_matches += 1
+        return num_matches
+    
+    def calculateNumberOfSchemaMatches(self, schema):
+        """
+        Return the number of schema matches in the population.
+        """
+        bit_population = self.getBinaryRepresentation()
+        num_matches = 0
+        for individual in bit_population:
+            for gene in individual:
+                num_matches += self.numOfSchemaMatchesInGene(schema, gene)
+        return num_matches
 
     def evolve(self, target, retain=0.2, random_select=0.05, mutate=0.01):
         """
