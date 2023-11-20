@@ -1,6 +1,7 @@
 from random import randint, random
 import numpy as np
 import re
+import struct
 
 class GeneticAlgorithm:
     def __init__(self, population_size, individual_length, min, max):
@@ -10,6 +11,34 @@ class GeneticAlgorithm:
         self.max = max
         self.population = self.generatePopulation()
         self.fitness = 0
+
+    def addRandomIndividuals(
+            self,
+            sortedIndividuals,
+            random_select,
+            retain_length):
+        """
+        Add random individuals to the population.
+
+        sortedIndividuals: the individuals sorted by fitness
+        random_select: the probability that each individual will be randomly selected
+        retain_length: the number of individuals that should be retained without change between generations
+        """
+        # Retain the best individuals
+        parents = sortedIndividuals[:retain_length]
+
+        # randomly add other individuals to promote genetic diversity
+        for individual in sortedIndividuals[retain_length:]:
+            # random_select is the probability that the individual will
+            # be added to the parents list (i.e. retained for the next
+            # generation). This probability will be higher for individuals
+            # with a high fitness, so these individuals are more likely to
+            # be parents.
+            if random_select > random() and len(parents) < self.population_size - 1:
+                parents = np.append(
+                    parents, individual.reshape(
+                        (1, 6)), axis=0)
+        return parents
 
     def calculateAverageFitness(self, target):
         "Find average fitness for a population."
@@ -39,8 +68,9 @@ class GeneticAlgorithm:
         """
         defining_length = self.calculateSchemaDefiningLength(schema)
         pc1 = defining_length / (len(schema) - 1)
-        pc = 1 - retain
-        return 1 - pc * pc1
+        pc = retain
+        crossover_effect = 1 - pc * pc1
+        return crossover_effect
 
     def calculateExpectedNumIndividualsInSchema(self, schema, target, retain=0.2, mutate=0.01):
         numOfIndividualsInSchema = self.calculateNumIndividualsInSchema(schema)
@@ -77,6 +107,35 @@ class GeneticAlgorithm:
         fitness = np.sum(fitness, axis=1)
         return fitness
 
+    def calculateFitnessesPolynomially(self, target, population=None):
+        """
+        Calculate the fitness of each individual in the population.
+        """
+        if population is None:
+            population = self.population
+
+        x_values = np.arange(-100, 100, 1, dtype=np.float64)
+        # calculate the y values for each x value using a polynomial equation
+        # where the coefficients are the elements in target
+        expected_y_values = np.polyval(target, x_values)
+
+        # calculate the y values for each x value using a polynomial equation
+        # where the coefficients are the elements in the individual
+        actual_y_values = np.zeros(
+            (population.shape[0],
+             len(x_values)),
+            dtype=np.float64)
+        for individualIndex in range(population.shape[0]):
+            individual = population[individualIndex]
+            actual_y_values[individualIndex] = np.polyval(individual, x_values)
+
+        # calculate the fitness of each individual by summing the absolute
+        # difference between the expected y values and the actual y values
+        fitness = np.abs(expected_y_values - actual_y_values)
+        fitness = np.sum(fitness, axis=1)
+        fitness = fitness / len(x_values)
+        return fitness
+
     def calculateMinFitness(self, target):
         "Find minimum fitness for a population."
         fitnesses = self.getFitness(target)
@@ -106,7 +165,7 @@ class GeneticAlgorithm:
         return num_matches
 
     def calculateSchemaDefiningLength(self, schema):
-        defining_length = len(schema.strip("."))
+        defining_length = len(schema.strip(".")) - 1
         return defining_length
 
     def calculateSchemaOrder(self, schema):
@@ -128,66 +187,10 @@ class GeneticAlgorithm:
         if len(schema_matches) == 0:
             return None
         schema_matches_array = np.array(schema_matches)
-        schema_fitnesses = self.calculateFitnessesElementwise(
+        schema_fitnesses = self.calculateFitnessesPolynomially(
             target, schema_matches_array)
         total_schema_fitness = np.sum(schema_fitnesses)
         return total_schema_fitness
-
-    def addRandomIndividuals(
-            self,
-            sortedIndividuals,
-            random_select,
-            retain_length):
-        """
-        Add random individuals to the population.
-
-        sortedIndividuals: the individuals sorted by fitness
-        random_select: the probability that each individual will be randomly selected
-        retain_length: the number of individuals that should be retained without change between generations
-        """
-        # Retain the best individuals
-        parents = sortedIndividuals[:retain_length]
-
-        # randomly add other individuals to promote genetic diversity
-        for individual in sortedIndividuals[retain_length:]:
-            # random_select is the probability that the individual will
-            # be added to the parents list (i.e. retained for the next
-            # generation). This probability will be higher for individuals
-            # with a high fitness, so these individuals are more likely to
-            # be parents.
-            if random_select > random() and len(parents) < self.population_size - 1:
-                parents = np.append(
-                    parents, individual.reshape(
-                        (1, 6)), axis=0)
-        return parents
-
-    def mutate(self, mutate, parents):
-        """
-        Mutate some individuals.
-        
-        mutate: the probability that each gene will be randomly
-        changed. This probability will be higher for individuals with
-        a low fitness, so these individuals are more likely to be
-        mutated.
-        
-        parents: the parents to mutate
-        """
-        # mutate some individuals
-        for individualIndex in range(parents.shape[0]):
-            # mutate is the probability that each gene will be randomly
-            # changed. This probability will be higher for individuals with
-            # a low fitness, so these individuals are more likely to be
-            # mutated.
-            if mutate > random():
-                mutateIndex = randint(0, self.individual_length - 1)
-                # this mutation is not ideal, because it
-                # restricts the range of possible values,
-                # but the function is unaware of the min/max
-                # values used to create the individuals,
-                # so it'll have to do for now
-                parents[individualIndex, mutateIndex] = randint(
-                    self.min, self.max)
-        return parents
 
     def crossover(self, parents):
         """
@@ -215,6 +218,37 @@ class GeneticAlgorithm:
                 child = np.concatenate((dad[:halfIndex], mom[halfIndex:]))
                 children.append(child)
         return np.array(children)
+    
+    def crossoverBitwise(self, parents):
+        """
+        Crossover parents to create children.
+        
+        parents: the parents to create children from
+        """
+        # crossover parents to create children
+        numParents = len(parents)
+        numDesiredChildren = self.population_size - numParents
+        children = []
+        while len(children) < numDesiredChildren:
+            # Get a random mom and dad.
+            dadIndex = randint(0, numParents - 1)
+            momIndex = randint(0, numParents - 1)
+
+            # Since we don't want to use the same
+            # mom and dad multiple times, make sure
+            # they aren't the same parent.
+            if dadIndex != momIndex:
+                dad = parents[dadIndex]
+                mom = parents[momIndex]
+                binary_dad = ''.join([self.getBinaryRepresentationOfGene(gene) for gene in dad])
+                binary_mom = ''.join([self.getBinaryRepresentationOfGene(gene) for gene in mom])
+                halfIndex = int(len(binary_dad) / 2)
+                # Create a child.
+                binary_child = binary_dad[:halfIndex] + binary_mom[halfIndex:]
+                child_binaries = [binary_child[i:i+8] for i in range(0, len(binary_child), 8)]
+                child = [self.getSignedIntegerRepresentationOfGene(binary_gene) for binary_gene in child_binaries]
+                children.append(child)
+        return np.array(children)
 
     def evolve(self, target, retain=0.2, random_select=0.05, mutate=0.01):
         """
@@ -228,8 +262,7 @@ class GeneticAlgorithm:
         """
         # For each individual in the population, calculate the fitness
         # and sort the population in order of ascending fitness
-        fitnesss = self.fitness if isinstance(
-            self.fitness, np.ndarray) else self.calculateFitnessesElementwise(target)
+        fitnesss = self.getFitness(target)
         sortedfitnesssIndices = np.argsort(fitnesss)
         sortedIndividuals = self.population[sortedfitnesssIndices]
         # Calculate the number of individuals to retain, based on the retain
@@ -242,7 +275,7 @@ class GeneticAlgorithm:
         parents = self.addRandomIndividuals(
             sortedIndividuals, random_select, retain_length)
         parents = self.mutate(mutate, parents)
-        children = self.crossover(parents)
+        children = self.crossoverBitwise(parents)
 
         # Add children to the parents to create the next generation.
         new_population = np.append(parents, children, axis=0)
@@ -274,9 +307,16 @@ class GeneticAlgorithm:
         binary_gene = np.binary_repr(gene, width=8)
         return binary_gene
 
+    def getSignedIntegerRepresentationOfGene(self, gene):
+        """
+        Return the signed integer representation of the given gene.
+        """
+        signed_gene = struct.unpack('b', struct.pack('B', int(gene, 2)))[0]
+        return signed_gene
+
     def getFitness(self, target):
         self.fitness = self.fitness if isinstance(
-            self.fitness, np.ndarray) else self.calculateFitnessesElementwise(target)
+            self.fitness, np.ndarray) else self.calculateFitnessesPolynomially(target)
         return self.fitness
 
     def isGeneMemberOfSchema(self, gene, schema):
@@ -285,7 +325,7 @@ class GeneticAlgorithm:
         """
         return re.match(schema, gene) is not None
 
-    def isIndividualMemberOfSchema(self, individual, schema):
+    def isIndividualMemberOfSchemaGenewise(self, individual, schema):
         """
         Return True if individual is a member of schema, False otherwise.
         """
@@ -294,3 +334,39 @@ class GeneticAlgorithm:
             if self.isGeneMemberOfSchema(binary_gene, schema):
                 return True
         return False
+    
+    def isIndividualMemberOfSchema(self, individual, schema):
+        """
+        Return True if individual is a member of schema, False otherwise.
+        """
+        binary_individual = ''.join([self.getBinaryRepresentationOfGene(gene) for gene in individual])
+        isMember = self.isGeneMemberOfSchema(binary_individual, schema)
+        return isMember
+
+    def mutate(self, mutate, parents):
+        """
+        Mutate some individuals.
+        
+        mutate: the probability that each gene will be randomly
+        changed. This probability will be higher for individuals with
+        a low fitness, so these individuals are more likely to be
+        mutated.
+        
+        parents: the parents to mutate
+        """
+        # mutate some individuals
+        for individualIndex in range(parents.shape[0]):
+            # mutate is the probability that each gene will be randomly
+            # changed. This probability will be higher for individuals with
+            # a low fitness, so these individuals are more likely to be
+            # mutated.
+            if mutate > random():
+                mutateIndex = randint(0, self.individual_length - 1)
+                # this mutation is not ideal, because it
+                # restricts the range of possible values,
+                # but the function is unaware of the min/max
+                # values used to create the individuals,
+                # so it'll have to do for now
+                parents[individualIndex, mutateIndex] = randint(
+                    self.min, self.max)
+        return parents
