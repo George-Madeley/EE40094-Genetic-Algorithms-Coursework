@@ -2,7 +2,6 @@ from random import randint, random
 import numpy as np
 import re
 
-
 class GeneticAlgorithm:
     def __init__(self, population_size, individual_length, min, max):
         self.population_size = population_size
@@ -10,134 +9,142 @@ class GeneticAlgorithm:
         self.min = min
         self.max = max
         self.population = self.generatePopulation()
-        self.errors = 0
+        self.fitness = 0
 
-    def generatePopulation(self):
-        """
-        Create a number of individuals (i.e. a population).
+    def calculateAverageFitness(self, target):
+        "Find average fitness for a population."
+        fitnesses = self.getFitness(target)
+        average = np.average(fitnesses)
 
-        count: the number of individuals in the population
-        length: the number of values per individual
-        min: the minimum possible value in an individual's list of values
-        max: the maximum possible value in an individual's list of values
-
-        """
-        return np.random.randint(self.min, self.max, (self.population_size, self.individual_length), dtype=np.int8)
-
-    def calculateAverageGrade(self, target):
-        "Find average error for a population."
-        # Calculate the error of each individual in the population
-        # and sum them together. The error is the sum of the differences
-        # between each individual's sum and the target
-        errors = self.errors if type(self.errors) == np.ndarray else self.calculateErrorsElementwise(target)
-        average = np.average(errors)
-
-        # Return the average error of the population
+        # Return the average fitness of the population
         return average
-    
-    def calculateMinGrade(self, target):
-        "Find minimum error for a population."
-        # Calculate the error of each individual in the population
-        # and sum them together. The error is the sum of the differences
-        # between each individual's sum and the target
-        errors = self.errors if type(self.errors) == np.ndarray else self.calculateErrorsElementwise(target)
-        minGrade = np.min(errors)
 
-        # Return the min error of the population
+    def calculateAverageSchemaFitness(self, schema, target):
+        """
+        Return the average fitness of the schema.
+        """
+        num_of_schema_matches = self.calculateNumIndividualsInSchema(schema)
+        total_schema_fitness = self.calculateTotalSchemaFitness(schema, target)
+        if total_schema_fitness is None:
+            return 0
+        schema_fitness = total_schema_fitness / num_of_schema_matches
+        return schema_fitness
+
+    def calculateCrossoverEffect(self, schema, retain=0.2):
+        """
+        Calculate the effect of crossover on the schema.
+
+        schema: the schema to calculate the effect of crossover on
+        retain: the portion of the population that should be retained without change between generations
+        """
+        defining_length = self.calculateSchemaDefiningLength(schema)
+        pc1 = defining_length / (len(schema) - 1)
+        pc = 1 - retain
+        return 1 - pc * pc1
+
+    def calculateExpectedNumIndividualsInSchema(self, schema, target, retain=0.2, mutate=0.01):
+        numOfIndividualsInSchema = self.calculateNumIndividualsInSchema(schema)
+        avgSchemaFitness = self.calculateAverageSchemaFitness(schema, target)
+        avgPopulationFitness = self.calculateAverageFitness(target)
+        crossoverEffect = self.calculateCrossoverEffect(schema, retain)
+        mutationEffect = self.calculateMutationEffect(schema, mutate)
+        selectionEffect = avgSchemaFitness / avgPopulationFitness
+        expectedNumIndividualsInSchema = numOfIndividualsInSchema * crossoverEffect * mutationEffect * selectionEffect
+        return expectedNumIndividualsInSchema
+
+    def calculateFitnesses(self, target, population=None):
+        """
+        Calculate the fitness of each individual in the population.
+        """
+        if population is None:
+            population = self.population
+
+        target = np.full(population.shape[0], target)
+        fitness = np.abs(target - np.sum(population, axis=1))
+        return fitness
+
+    def calculateFitnessesElementwise(self, target, population=None):
+        """
+        Calculate the fitness of each individual in the population.
+        """
+        if population is None:
+            population = self.population
+
+        target_array = np.zeros(
+            (population.shape[0],
+             self.individual_length), dtype=np.float32) + target
+        fitness = np.abs(target_array - population)
+        fitness = np.sum(fitness, axis=1)
+        return fitness
+
+    def calculateMinFitness(self, target):
+        "Find minimum fitness for a population."
+        fitnesses = self.getFitness(target)
+        minGrade = np.min(fitnesses)
+
+        # Return the min fitness of the population
         return minGrade
 
-    def calculateErrors(self, target):
-        target = np.full(self.population_size, target)
-        self.errors = np.abs(target - np.sum(self.population, axis=1))
-        return self.errors
-    
-    def calculateErrorsElementwise(self, target):
-        target = np.zeros((self.population_size, self.individual_length)) + target
-        self.errors = np.abs(target - self.population)
-        self.errors = np.sum(self.errors, axis=1)
-        return self.errors
-    
-    def getBinaryRepresentation(self):
+    def calculateMutationEffect(self, schema, mutate=0.01):
         """
-        Return an 8-bit signed binary representation of the population using numpy.byte
-        """
-        byte_rep_population = []
-        for individual in self.population:
-            byte_rep_individual = [np.binary_repr(gene, width=8) for gene in individual]
-            byte_rep_population.append(byte_rep_individual)
-        byte_rep = np.array(byte_rep_population, dtype=np.str_)
-        return byte_rep
-    
-    def numOfSchemaMatchesInGene(self, schema, gene):
-        """
-        Return the number of matches of schema in gene.
-        """
-        return len(re.findall(schema, gene))
+        Calculate the effect of mutation on the schema.
 
-    def isGeneMemberOfSchema(self, gene, schema):
+        schema: the schema to calculate the effect of mutation on
+        mutate: the probability of mutation for each individual gene
         """
-        Return True if gene is a member of schema, False otherwise.
-        """
-        return re.match(schema, gene) is not None
+        schema_order = self.calculateSchemaOrder(schema)
+        return (1 - mutate) ** schema_order
 
-    def calculateNumberOfSchemaIndividuals(self, schema):
+    def calculateNumIndividualsInSchema(self, schema):
         """
         Return the number of individuals in the population that match the schema.
         """
-        bit_population = self.getBinaryRepresentation()
         num_matches = 0
-        for individual in bit_population:
-            for gene in individual:
-                if self.isGeneMemberOfSchema(gene, schema):
-                    num_matches += 1
-                    break
-        return num_matches
-    
-    def calculateNumberOfSchemaGenes(self, schema):
-        """
-        Return the number of genes in the population that match the schema.
-        """
-        bit_population = self.getBinaryRepresentation()
-        num_matches = 0
-        for individual in bit_population:
-            for gene in individual:
-                if self.isGeneMemberOfSchema(gene, schema):
-                    num_matches += 1
-        return num_matches
-    
-    def calculateNumberOfSchemaMatches(self, schema):
-        """
-        Return the number of schema matches in the population.
-        """
-        bit_population = self.getBinaryRepresentation()
-        num_matches = 0
-        for individual in bit_population:
-            for gene in individual:
-                num_matches += self.numOfSchemaMatchesInGene(schema, gene)
+        for individual in self.population:
+            if self.isIndividualMemberOfSchema(individual, schema):
+                num_matches += 1
         return num_matches
 
-    def evolve(self, target, retain=0.2, random_select=0.05, mutate=0.01):
-        """
-        Evolve a population some number of generations.
-        
-        population: the population to evolve
-        target: the sum of numbers that individuals are aiming for
-        retain: the portion of the population that should be retained without change between generations
-        random_select: the portion of the population that should randomly selected for retention
-        mutate: the probability of mutation for each individual gene
-        """
-        # For each individual in the population, calculate the fitness
-        # and sort the population in order of ascending fitness
-        errors = self.errors if type(self.errors) == np.ndarray else self.calculateErrorsElementwise(target)
-        sortedErrorsIndices = np.argsort(errors)
-        sortedIndividuals = self.population[sortedErrorsIndices]
-        # Calculate the number of individuals to retain, based on the retain
-        # parameter. Using ceil() prevents us from retaining 0 individuals
-        # when the retain parameter is low. I.e. it makes sure we always
-        # retain at least one individual.
-        retain_length = np.floor(self.population_size * retain)
-        retain_length = int(retain_length) if retain_length > 1 else 2
+    def calculateSchemaDefiningLength(self, schema):
+        defining_length = len(schema.strip("."))
+        return defining_length
 
+    def calculateSchemaOrder(self, schema):
+        schema_order = len(schema) - schema.count(".")
+        return schema_order
+
+    def calculateTotalSchemaFitness(self, schema, target):
+        """
+        Return the total fitness of the schema.
+        """
+        # Stores the index of the individual in the population
+        # that are in the schema.
+        schema_matches = []
+        for individual in self.population:
+            if self.isIndividualMemberOfSchema(individual, schema):
+                schema_matches.append(individual)
+
+        # Calculate the fitness of each individual in the schema.
+        if len(schema_matches) == 0:
+            return None
+        schema_matches_array = np.array(schema_matches)
+        schema_fitnesses = self.calculateFitnessesElementwise(
+            target, schema_matches_array)
+        total_schema_fitness = np.sum(schema_fitnesses)
+        return total_schema_fitness
+
+    def addRandomIndividuals(
+            self,
+            sortedIndividuals,
+            random_select,
+            retain_length):
+        """
+        Add random individuals to the population.
+
+        sortedIndividuals: the individuals sorted by fitness
+        random_select: the probability that each individual will be randomly selected
+        retain_length: the number of individuals that should be retained without change between generations
+        """
         # Retain the best individuals
         parents = sortedIndividuals[:retain_length]
 
@@ -149,13 +156,28 @@ class GeneticAlgorithm:
             # with a high fitness, so these individuals are more likely to
             # be parents.
             if random_select > random() and len(parents) < self.population_size - 1:
-                parents = np.append(parents, individual.reshape((1, 6)), axis=0)
+                parents = np.append(
+                    parents, individual.reshape(
+                        (1, 6)), axis=0)
+        return parents
 
+    def mutate(self, mutate, parents):
+        """
+        Mutate some individuals.
+        
+        mutate: the probability that each gene will be randomly
+        changed. This probability will be higher for individuals with
+        a low fitness, so these individuals are more likely to be
+        mutated.
+        
+        parents: the parents to mutate
+        """
         # mutate some individuals
         for individualIndex in range(parents.shape[0]):
             # mutate is the probability that each gene will be randomly
             # changed. This probability will be higher for individuals with
-            # a low fitness, so these individuals are more likely to be mutated.
+            # a low fitness, so these individuals are more likely to be
+            # mutated.
             if mutate > random():
                 mutateIndex = randint(0, self.individual_length - 1)
                 # this mutation is not ideal, because it
@@ -163,8 +185,16 @@ class GeneticAlgorithm:
                 # but the function is unaware of the min/max
                 # values used to create the individuals,
                 # so it'll have to do for now
-                parents[individualIndex, mutateIndex] = randint(self.min, self.max)
+                parents[individualIndex, mutateIndex] = randint(
+                    self.min, self.max)
+        return parents
 
+    def crossover(self, parents):
+        """
+        Crossover parents to create children.
+        
+        parents: the parents to create children from
+        """
         # crossover parents to create children
         numParents = len(parents)
         numDesiredChildren = self.population_size - numParents
@@ -184,8 +214,83 @@ class GeneticAlgorithm:
                 # Create a child.
                 child = np.concatenate((dad[:halfIndex], mom[halfIndex:]))
                 children.append(child)
+        return np.array(children)
+
+    def evolve(self, target, retain=0.2, random_select=0.05, mutate=0.01):
+        """
+        Evolve a population some number of generations.
+
+        population: the population to evolve
+        target: the sum of numbers that individuals are aiming for
+        retain: the portion of the population that should be retained without change between generations
+        random_select: the portion of the population that should randomly selected for retention
+        mutate: the probability of mutation for each individual gene
+        """
+        # For each individual in the population, calculate the fitness
+        # and sort the population in order of ascending fitness
+        fitnesss = self.fitness if isinstance(
+            self.fitness, np.ndarray) else self.calculateFitnessesElementwise(target)
+        sortedfitnesssIndices = np.argsort(fitnesss)
+        sortedIndividuals = self.population[sortedfitnesssIndices]
+        # Calculate the number of individuals to retain, based on the retain
+        # parameter. Using ceil() prevents us from retaining 0 individuals
+        # when the retain parameter is low. I.e. it makes sure we always
+        # retain at least one individual.
+        retain_length = np.floor(self.population_size * retain)
+        retain_length = int(retain_length) if retain_length > 1 else 2
+
+        parents = self.addRandomIndividuals(
+            sortedIndividuals, random_select, retain_length)
+        parents = self.mutate(mutate, parents)
+        children = self.crossover(parents)
 
         # Add children to the parents to create the next generation.
         new_population = np.append(parents, children, axis=0)
         self.population = new_population
-        self.errors = 0
+        self.fitness = 0
+
+    def generatePopulation(self):
+        """
+        Create a number of individuals (i.e. a population).
+
+        count: the number of individuals in the population
+        length: the number of values per individual
+        min: the minimum possible value in an individual's list of values
+        max: the maximum possible value in an individual's list of values
+
+        """
+        return np.random.randint(
+            self.min,
+            self.max,
+            (self.population_size,
+             self.individual_length),
+            dtype=np.int8)
+
+    def getBinaryRepresentationOfGene(self, gene):
+        """
+        Return an 8-bit signed binary representation of the given gene.
+        """
+        
+        binary_gene = np.binary_repr(gene, width=8)
+        return binary_gene
+
+    def getFitness(self, target):
+        self.fitness = self.fitness if isinstance(
+            self.fitness, np.ndarray) else self.calculateFitnessesElementwise(target)
+        return self.fitness
+
+    def isGeneMemberOfSchema(self, gene, schema):
+        """
+        Return True if gene is a member of schema, False otherwise.
+        """
+        return re.match(schema, gene) is not None
+
+    def isIndividualMemberOfSchema(self, individual, schema):
+        """
+        Return True if individual is a member of schema, False otherwise.
+        """
+        for gene in individual:
+            binary_gene = self.getBinaryRepresentationOfGene(gene)
+            if self.isGeneMemberOfSchema(binary_gene, schema):
+                return True
+        return False
