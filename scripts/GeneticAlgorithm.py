@@ -68,7 +68,7 @@ class GeneticAlgorithm:
         """
         defining_length = self.calculateSchemaDefiningLength(schema)
         pc1 = defining_length / (len(schema) - 1)
-        pc = retain
+        pc = 1 - retain
         crossover_effect = 1 - pc * pc1
         return crossover_effect
 
@@ -78,7 +78,7 @@ class GeneticAlgorithm:
         avgPopulationFitness = self.calculateAverageFitness(target)
         crossoverEffect = self.calculateCrossoverEffect(schema, retain)
         mutationEffect = self.calculateMutationEffect(schema, mutate)
-        selectionEffect = avgSchemaFitness / avgPopulationFitness
+        selectionEffect = 1 / (avgSchemaFitness / avgPopulationFitness)
         expectedNumIndividualsInSchema = numOfIndividualsInSchema * crossoverEffect * mutationEffect * selectionEffect
         return expectedNumIndividualsInSchema
 
@@ -107,14 +107,14 @@ class GeneticAlgorithm:
         fitness = np.sum(fitness, axis=1)
         return fitness
 
-    def calculateFitnessesPolynomially(self, target, population=None):
+    def calculateFitnessesPolynomially(self, target, population=None, min_x=-100, max_x=100, step=1):
         """
         Calculate the fitness of each individual in the population.
         """
         if population is None:
             population = self.population
 
-        x_values = np.arange(-100, 100, 1, dtype=np.float64)
+        x_values = np.arange(min_x, max_x, step, dtype=np.float64)
         # calculate the y values for each x value using a polynomial equation
         # where the coefficients are the elements in target
         expected_y_values = np.polyval(target, x_values)
@@ -178,18 +178,11 @@ class GeneticAlgorithm:
         """
         # Stores the index of the individual in the population
         # that are in the schema.
-        schema_matches = []
-        for individual in self.population:
+        total_schema_fitness = 0
+        individual_with_fitness = zip(self.population, self.getFitness(target))
+        for individual, fitness in individual_with_fitness:
             if self.isIndividualMemberOfSchema(individual, schema):
-                schema_matches.append(individual)
-
-        # Calculate the fitness of each individual in the schema.
-        if len(schema_matches) == 0:
-            return None
-        schema_matches_array = np.array(schema_matches)
-        schema_fitnesses = self.calculateFitnessesPolynomially(
-            target, schema_matches_array)
-        total_schema_fitness = np.sum(schema_fitnesses)
+                total_schema_fitness += fitness
         return total_schema_fitness
 
     def crossover(self, parents):
@@ -316,7 +309,7 @@ class GeneticAlgorithm:
 
     def getFitness(self, target):
         self.fitness = self.fitness if isinstance(
-            self.fitness, np.ndarray) else self.calculateFitnessesPolynomially(target)
+            self.fitness, np.ndarray) else self.calculateFitnesses(target)
         return self.fitness
 
     def isGeneMemberOfSchema(self, gene, schema):
