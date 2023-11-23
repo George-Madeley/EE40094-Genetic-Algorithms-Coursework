@@ -1,0 +1,5 @@
+population_count,selection_method,crossover_method,fitness_method,elitism,mutation,retain,random_select,num_generations,min_fitness,avg_fitness
+100,rank,bitwise,scalar,False,0.1,0.2,0.05,136.06,0.0,6.0729000000000015
+100,roulette,bitwise,scalar,False,0.1,0.2,0.05,134.12,0.0,4.672900000000002
+100,rank,bitwise,scalar,True,0.1,0.2,0.05,124.11,0.0,5.0519000000000025
+100,roulette,bitwise,scalar,True,0.1,0.2,0.05,123.58,0.0,4.554500000000002
