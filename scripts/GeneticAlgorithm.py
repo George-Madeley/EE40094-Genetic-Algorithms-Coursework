@@ -7,7 +7,7 @@ class GeneticAlgorithm:
     """
     A genetic algorithm that evolves a population of individuals to find the best solution to a problem.
     """
-    def __init__(self, population_size, individual_length, min, max, retain=0.2, random_select=0.05, mutate=0.01):
+    def __init__(self, population_size, individual_length, min, max, retain=0.2, random_select=0.05, mutate=0.01, fitness_method="scalar"):
         """
         Create a genetic algorithm.
 
@@ -22,17 +22,16 @@ class GeneticAlgorithm:
         self.max = max
         self.retain = retain
         self.random_select = random_select
-        self.mutate = mutate
+        self.mutation_probability = mutate
         self.population = self.generatePopulation()
         self.fitness = 0
+        self.fitness_method = fitness_method
 
-    def addRandomIndividuals(
-            self):
+    def addRandomIndividuals(self, parents):
         """
         Add random individuals to the population.
 
-        :param random_select: the probability that each individual will be randomly selected
-        :param retain_length: the number of individuals that should be retained without change between generations
+        :param parents: the parents to add random individuals to
 
         :returns: the parents to be used for the next generation
         """
@@ -84,9 +83,6 @@ class GeneticAlgorithm:
         """
         Calculate the effect of crossover on the schema.
 
-        :param schema: the schema to calculate the effect of crossover on
-        :param retain: the portion of the population that should be retained without change between generations
-
         :returns: the effect of crossover on the schema
         """
         defining_length = self.calculateSchemaDefiningLength(schema)
@@ -101,8 +97,6 @@ class GeneticAlgorithm:
         
         :param schema: the schema to calculate the expected number of individuals in the population that match
         :param target: the sum of numbers that individuals are aiming for
-        :param retain: the portion of the population that should be retained without change between generations
-        :param mutate: the probability of mutation for each individual gene
         
         :returns: the expected number of individuals in the next generation that match the schema
         """
@@ -123,15 +117,24 @@ class GeneticAlgorithm:
         :param population: the population to calculate the fitness of
 
         :returns: the fitness of each individual in the population
+
+        :raises Exception: if an invalid fitness method is given
         """
+        
         if population is None:
             population = self.population
 
-        target = np.full(population.shape[0], target)
-        fitness = np.abs(target - np.sum(population, axis=1))
-        return fitness
-
-    def calculateFitnessesElementwise(self, target, population=None):
+        if self.fitness_method == "scalar":
+            fitnesses = self.calculateFitnessesScalar(target, population)
+        elif self.fitness_method == "elementwise":
+            fitnesses = self.calculateFitnessesElementwise(target, population)
+        elif self.fitness_method == "polynomial":
+            fitnesses = self.calculateFitnessesPolynomially(target, population)
+        else:
+            raise Exception("Invalid fitness method: {}".format(self.fitness_method))
+        return fitnesses
+    
+    def calculateFitnessesScalar(self, target, population):
         """
         Calculate the fitness of each individual in the population.
 
@@ -140,8 +143,20 @@ class GeneticAlgorithm:
 
         :returns: the fitness of each individual in the population
         """
-        if population is None:
-            population = self.population
+
+        target = np.full(population.shape[0], target)
+        fitness = np.abs(target - np.sum(population, axis=1))
+        return fitness
+
+    def calculateFitnessesElementwise(self, target, population):
+        """
+        Calculate the fitness of each individual in the population.
+
+        :param target: the sum of numbers that individuals are aiming for
+        :param population: the population to calculate the fitness of
+
+        :returns: the fitness of each individual in the population
+        """
 
         target_array = np.zeros(
             (population.shape[0],
@@ -150,7 +165,7 @@ class GeneticAlgorithm:
         fitness = np.sum(fitness, axis=1)
         return fitness
 
-    def calculateFitnessesPolynomially(self, target, population=None, min_x=-100, max_x=100, step=1):
+    def calculateFitnessesPolynomially(self, target, population, min_x=-100, max_x=100, step=1):
         """
         Calculate the fitness of each individual in the population.
 
@@ -162,8 +177,6 @@ class GeneticAlgorithm:
 
         :returns: the fitness of each individual in the population
         """
-        if population is None:
-            population = self.population
 
         x_values = np.arange(min_x, max_x, step, dtype=np.float64)
         # calculate the y values for each x value using a polynomial equation
@@ -211,7 +224,7 @@ class GeneticAlgorithm:
         :returns: the effect of mutation on the schema
         """
         schema_order = self.calculateSchemaOrder(schema)
-        return (1 - self.mutate) ** schema_order
+        return (1 - self.mutation_probability) ** schema_order
 
     def calculateNumIndividualsInSchema(self, schema):
         """
@@ -398,7 +411,7 @@ class GeneticAlgorithm:
         :raises Exception: if an invalid selection method is given
         """
         if selection_method == "rank":
-            parents = self.rankPopulation(target, self.retain, self.random_select)
+            parents = self.rankPopulation(target)
         elif selection_method == "roulette":
             parents = self.rouletteWheelSelection(target)
         else:
@@ -425,8 +438,6 @@ class GeneticAlgorithm:
         Select parents using roulette wheel selection.
         
         :param target: the sum of numbers that individuals are aiming for
-        :param retain: the portion of the population that should be retained without change between generations
-        :param random_select: the probability that each individual will be randomly selected for retention
         
         :returns: the parents selected using roulette wheel selection
         """
@@ -554,7 +565,6 @@ class GeneticAlgorithm:
         """
         Mutate some individuals.
 
-        :param mutate: the probability that each gene will be randomly changed
         :param population: the population to mutate
 
         :returns: the mutated parents
@@ -565,7 +575,7 @@ class GeneticAlgorithm:
             # changed. This probability will be higher for individuals with
             # a low fitness, so these individuals are more likely to be
             # mutated.
-            if self.mutate > random():
+            if self.mutation_probability > random():
                 mutateIndex = randint(0, self.individual_length - 1)
                 # this mutation is not ideal, because it
                 # restricts the range of possible values,
