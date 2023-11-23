@@ -1,0 +1,525 @@
+ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      435    0.179    0.000  312.982    0.719 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:336(evolve)
+      435   23.241    0.053  247.666    0.569 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:303(crossoverBitwise)
+      435    0.008    0.000  224.113    0.515 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:194(calculateMinFitness)
+     1305    0.295    0.000  224.087    0.172 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:409(getFitness)
+      435   22.876    0.053  223.791    0.514 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:157(calculateFitnessesPolynomially)
+21841406/6571138   40.584    0.000  215.524    0.000 {built-in method numpy.core._multiarray_umath.implement_array_function}
+  4350435    9.574    0.000  200.191    0.000 <__array_function__ internals>:177(polyval)
+  4350435  108.244    0.000  182.385    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\polynomial.py:704(polyval)
+ 17747664   31.834    0.000  135.690    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:386(getBinaryRepresentationOfGene)
+ 17747664   81.365    0.000  103.855    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:1959(binary_repr)
+  1478972   16.340    0.000   84.781    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:326(<listcomp>)
+  1478972   15.893    0.000   83.142    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:327(<listcomp>)
+  4350435    8.881    0.000   71.979    0.000 <__array_function__ internals>:177(zeros_like)
+  4350435   18.975    0.000   55.270    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:77(zeros_like)
+      435   10.128    0.023   42.781    0.098 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:27(addRandomIndividuals)
+  5598692    9.206    0.000   35.703    0.000 C:\Users\Georg\anaconda3\Lib\random.py:358(randint)
+  2218963    5.046    0.000   30.636    0.000 <__array_function__ internals>:177(append)
+  1478972   14.010    0.000   30.437    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:332(<listcomp>)
+  5598692   16.710    0.000   26.497    0.000 C:\Users\Georg\anaconda3\Lib\random.py:284(randrange)
+      435    5.710    0.013   22.105    0.051 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:460(mutate)
+  2218963    4.780    0.000   21.588    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:5444(append)
+  4350435   10.276    0.000   18.274    0.000 <__array_function__ internals>:177(empty_like)
+  2218963    5.098    0.000   16.493    0.000 <__array_function__ internals>:177(concatenate)
+  8873832   12.724    0.000   16.427    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:398(getSignedIntegerRepresentationOfGene)
+  4350435    9.692    0.000   15.845    0.000 <__array_function__ internals>:177(copyto)
+  5598692    6.913    0.000    8.399    0.000 C:\Users\Georg\anaconda3\Lib\random.py:235(_randbelow_with_getrandbits)
+ 17676648    6.055    0.000    6.055    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:2031(warn_if_insufficient)
+ 17676648    5.444    0.000    5.444    0.000 {built-in method builtins.max}
+  1478972    4.033    0.000    4.033    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:331(<listcomp>)
+ 24899354    3.919    0.000    3.919    0.000 {built-in method builtins.bin}
+ 34543740    3.916    0.000    3.916    0.000 {built-in method _operator.index}
+ 31556767    3.182    0.000    3.182    0.000 {built-in method builtins.len}
+  4350870    2.187    0.000    2.187    0.000 {built-in method numpy.zeros}
+ 10453942    2.163    0.000    2.163    0.000 {method 'zfill' of 'str' objects}
+  8873832    2.071    0.000    2.071    0.000 {built-in method _struct.pack}
+  8873832    1.633    0.000    1.633    0.000 {built-in method _struct.unpack}
+  2218528    1.271    0.000    1.271    0.000 {method 'reshape' of 'numpy.ndarray' objects}
+  4350435    1.110    0.000    1.110    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\polynomial.py:700(_polyval_dispatcher)
+  4350435    1.080    0.000    1.080    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\multiarray.py:1079(copyto)
+  4352610    0.960    0.000    0.960    0.000 {built-in method builtins.isinstance}
+  4350435    0.933    0.000    0.933    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:73(_zeros_like_dispatcher)
+      435    0.913    0.002    0.913    0.002 {built-in method numpy.array}
+  4350435    0.897    0.000    0.897    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\multiarray.py:84(empty_like)
+  7112742    0.882    0.000    0.882    0.000 {method 'getrandbits' of '_random.Random' objects}
+  2957944    0.839    0.000    0.839    0.000 {method 'join' of 'str' objects}
+  6570703    0.791    0.000    0.791    0.000 {built-in method numpy.asanyarray}
+  4350435    0.729    0.000    0.729    0.000 {built-in method numpy.asarray}
+  6568528    0.722    0.000    0.722    0.000 {method 'random' of '_random.Random' objects}
+      435    0.004    0.000    0.708    0.002 <__array_function__ internals>:177(sum)
+      870    0.009    0.000    0.708    0.001 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:69(_wrapreduction)
+      435    0.004    0.000    0.700    0.002 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2188(sum)
+     1305    0.700    0.001    0.700    0.001 {method 'reduce' of 'numpy.ufunc' objects}
+  5598692    0.605    0.000    0.605    0.000 {method 'bit_length' of 'int' objects}
+  2218963    0.542    0.000    0.542    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:5440(_append_dispatcher)
+  2218963    0.472    0.000    0.472    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\multiarray.py:152(concatenate)
+  1478972    0.225    0.000    0.225    0.000 {method 'append' of 'list' objects}
+      435    0.001    0.000    0.223    0.001 <__array_function__ internals>:177(argsort)
+      435    0.001    0.000    0.220    0.001 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:1038(argsort)
+      435    0.001    0.000    0.218    0.001 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:51(_wrapfunc)
+      435    0.217    0.000    0.217    0.000 {method 'argsort' of 'numpy.ndarray' objects}
+      435    0.002    0.000    0.031    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:57(calculateAverageFitness)
+      435    0.002    0.000    0.028    0.000 <__array_function__ internals>:177(average)
+      435    0.002    0.000    0.024    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:396(average)
+      435    0.002    0.000    0.020    0.000 {method 'mean' of 'numpy.ndarray' objects}
+      435    0.002    0.000    0.020    0.000 <__array_function__ internals>:177(amin)
+      435    0.007    0.000    0.018    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\_methods.py:164(_mean)
+      435    0.003    0.000    0.015    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2829(amin)
+      435    0.006    0.000    0.006    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\_methods.py:67(_count_reduce_items)
+      435    0.003    0.000    0.003    0.000 {built-in method numpy.arange}
+      870    0.002    0.000    0.002    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:70(<dictcomp>)
+      870    0.001    0.000    0.001    0.000 {method 'items' of 'dict' objects}
+      435    0.001    0.000    0.001    0.000 {built-in method builtins.hasattr}
+      435    0.000    0.000    0.000    0.000 {built-in method numpy.core._multiarray_umath.normalize_axis_index}
+      435    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+      870    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
+      435    0.000    0.000    0.000    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2183(_sum_dispatcher)
+      435    0.000    0.000    0.000    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2824(_amin_dispatcher)
+      435    0.000    0.000    0.000    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:391(_average_dispatcher)
+      435    0.000    0.000    0.000    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:1034(_argsort_dispatcher)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      435    0.179    0.000  312.982    0.719 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:336(evolve)
+      435   23.241    0.053  247.666    0.569 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:303(crossoverBitwise)
+      435    0.008    0.000  224.113    0.515 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:194(calculateMinFitness)
+     1305    0.295    0.000  224.087    0.172 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:409(getFitness)
+      435   22.876    0.053  223.791    0.514 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:157(calculateFitnessesPolynomially)
+21841406/6571138   40.584    0.000  215.524    0.000 {built-in method numpy.core._multiarray_umath.implement_array_function}
+  4350435    9.574    0.000  200.191    0.000 <__array_function__ internals>:177(polyval)
+  4350435  108.244    0.000  182.385    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\polynomial.py:704(polyval)
+ 17747664   31.834    0.000  135.690    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:386(getBinaryRepresentationOfGene)
+ 17747664   81.365    0.000  103.855    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:1959(binary_repr)
+  1478972   16.340    0.000   84.781    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:326(<listcomp>)
+  1478972   15.893    0.000   83.142    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:327(<listcomp>)
+  4350435    8.881    0.000   71.979    0.000 <__array_function__ internals>:177(zeros_like)
+  4350435   18.975    0.000   55.270    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:77(zeros_like)
+      435   10.128    0.023   42.781    0.098 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:27(addRandomIndividuals)
+  5598692    9.206    0.000   35.703    0.000 C:\Users\Georg\anaconda3\Lib\random.py:358(randint)
+  2218963    5.046    0.000   30.636    0.000 <__array_function__ internals>:177(append)
+  1478972   14.010    0.000   30.437    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:332(<listcomp>)
+  5598692   16.710    0.000   26.497    0.000 C:\Users\Georg\anaconda3\Lib\random.py:284(randrange)
+      435    5.710    0.013   22.105    0.051 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:460(mutate)
+  2218963    4.780    0.000   21.588    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:5444(append)
+  4350435   10.276    0.000   18.274    0.000 <__array_function__ internals>:177(empty_like)
+  2218963    5.098    0.000   16.493    0.000 <__array_function__ internals>:177(concatenate)
+  8873832   12.724    0.000   16.427    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:398(getSignedIntegerRepresentationOfGene)
+  4350435    9.692    0.000   15.845    0.000 <__array_function__ internals>:177(copyto)
+  5598692    6.913    0.000    8.399    0.000 C:\Users\Georg\anaconda3\Lib\random.py:235(_randbelow_with_getrandbits)
+ 17676648    6.055    0.000    6.055    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:2031(warn_if_insufficient)
+ 17676648    5.444    0.000    5.444    0.000 {built-in method builtins.max}
+  1478972    4.033    0.000    4.033    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:331(<listcomp>)
+ 24899354    3.919    0.000    3.919    0.000 {built-in method builtins.bin}
+ 34543740    3.916    0.000    3.916    0.000 {built-in method _operator.index}
+ 31556767    3.182    0.000    3.182    0.000 {built-in method builtins.len}
+  4350870    2.187    0.000    2.187    0.000 {built-in method numpy.zeros}
+ 10453942    2.163    0.000    2.163    0.000 {method 'zfill' of 'str' objects}
+  8873832    2.071    0.000    2.071    0.000 {built-in method _struct.pack}
+  8873832    1.633    0.000    1.633    0.000 {built-in method _struct.unpack}
+  2218528    1.271    0.000    1.271    0.000 {method 'reshape' of 'numpy.ndarray' objects}
+  4350435    1.110    0.000    1.110    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\polynomial.py:700(_polyval_dispatcher)
+  4350435    1.080    0.000    1.080    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\multiarray.py:1079(copyto)
+  4352610    0.960    0.000    0.960    0.000 {built-in method builtins.isinstance}
+  4350435    0.933    0.000    0.933    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:73(_zeros_like_dispatcher)
+      435    0.913    0.002    0.913    0.002 {built-in method numpy.array}
+  4350435    0.897    0.000    0.897    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\multiarray.py:84(empty_like)
+  7112742    0.882    0.000    0.882    0.000 {method 'getrandbits' of '_random.Random' objects}
+  2957944    0.839    0.000    0.839    0.000 {method 'join' of 'str' objects}
+  6570703    0.791    0.000    0.791    0.000 {built-in method numpy.asanyarray}
+  4350435    0.729    0.000    0.729    0.000 {built-in method numpy.asarray}
+  6568528    0.722    0.000    0.722    0.000 {method 'random' of '_random.Random' objects}
+      435    0.004    0.000    0.708    0.002 <__array_function__ internals>:177(sum)
+      870    0.009    0.000    0.708    0.001 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:69(_wrapreduction)
+      435    0.004    0.000    0.700    0.002 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2188(sum)
+     1305    0.700    0.001    0.700    0.001 {method 'reduce' of 'numpy.ufunc' objects}
+  5598692    0.605    0.000    0.605    0.000 {method 'bit_length' of 'int' objects}
+  2218963    0.542    0.000    0.542    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:5440(_append_dispatcher)
+  2218963    0.472    0.000    0.472    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\multiarray.py:152(concatenate)
+  1478972    0.225    0.000    0.225    0.000 {method 'append' of 'list' objects}
+      435    0.001    0.000    0.223    0.001 <__array_function__ internals>:177(argsort)
+      435    0.001    0.000    0.220    0.001 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:1038(argsort)
+      435    0.001    0.000    0.218    0.001 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:51(_wrapfunc)
+      435    0.217    0.000    0.217    0.000 {method 'argsort' of 'numpy.ndarray' objects}
+      435    0.002    0.000    0.031    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:57(calculateAverageFitness)
+      435    0.002    0.000    0.028    0.000 <__array_function__ internals>:177(average)
+      435    0.002    0.000    0.024    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:396(average)
+      435    0.002    0.000    0.020    0.000 {method 'mean' of 'numpy.ndarray' objects}
+      435    0.002    0.000    0.020    0.000 <__array_function__ internals>:177(amin)
+      435    0.007    0.000    0.018    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\_methods.py:164(_mean)
+      435    0.003    0.000    0.015    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2829(amin)
+      435    0.006    0.000    0.006    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\_methods.py:67(_count_reduce_items)
+      435    0.003    0.000    0.003    0.000 {built-in method numpy.arange}
+      870    0.002    0.000    0.002    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:70(<dictcomp>)
+      870    0.001    0.000    0.001    0.000 {method 'items' of 'dict' objects}
+      435    0.001    0.000    0.001    0.000 {built-in method builtins.hasattr}
+      435    0.000    0.000    0.000    0.000 {built-in method numpy.core._multiarray_umath.normalize_axis_index}
+      435    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+      870    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
+      435    0.000    0.000    0.000    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2183(_sum_dispatcher)
+      435    0.000    0.000    0.000    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2824(_amin_dispatcher)
+      435    0.000    0.000    0.000    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:391(_average_dispatcher)
+      435    0.000    0.000    0.000    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:1034(_argsort_dispatcher)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+
+population_count: 10000 random_select: 0.6      Min Fitness: 0.00       Avg Fitness: 42799356839.11     Generations: 435.0
+         695981915 function calls (664559433 primitive calls) in 1089.239 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      893    0.364    0.000  630.511    0.706 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:336(evolve)
+      893   46.399    0.052  494.959    0.554 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:303(crossoverBitwise)
+      893    0.016    0.000  458.664    0.514 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:194(calculateMinFitness)
+     2679    0.607    0.000  458.610    0.171 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:409(getFitness)
+      893   46.781    0.052  458.001    0.513 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:157(calculateFitnessesPolynomially)
+44986750/13564268   83.213    0.000  441.687    0.000 {built-in method numpy.core._multiarray_umath.implement_array_function}
+  8930893   19.734    0.000  409.755    0.000 <__array_function__ internals>:177(polyval)
+  8930893  221.527    0.000  373.288    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\polynomial.py:704(polyval)
+ 35539080   63.745    0.000  271.222    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:386(getBinaryRepresentationOfGene)
+ 35539080  162.594    0.000  207.478    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:1959(binary_repr)
+  2961590   32.754    0.000  169.577    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:326(<listcomp>)
+  2961590   31.766    0.000  166.165    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:327(<listcomp>)
+  8930893   18.227    0.000  147.336    0.000 <__array_function__ internals>:177(zeros_like)
+  8930893   38.888    0.000  113.245    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:77(zeros_like)
+      893   21.160    0.024   88.890    0.100 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:27(addRandomIndividuals)
+ 11413476   18.679    0.000   72.500    0.000 C:\Users\Georg\anaconda3\Lib\random.py:358(randint)
+  4629803   10.427    0.000   63.530    0.000 <__array_function__ internals>:177(append)
+  2961590   27.945    0.000   60.774    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:332(<listcomp>)
+ 11413476   34.012    0.000   53.821    0.000 C:\Users\Georg\anaconda3\Lib\random.py:284(randrange)
+      893   11.812    0.013   45.782    0.051 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:460(mutate)
+  4629803    9.958    0.000   44.827    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:5444(append)
+  8930893   21.065    0.000   37.469    0.000 <__array_function__ internals>:177(empty_like)
+  4629803   10.585    0.000   34.219    0.000 <__array_function__ internals>:177(concatenate)
+ 17769540   25.432    0.000   32.830    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:398(getSignedIntegerRepresentationOfGene)
+  8930893   19.849    0.000   32.452    0.000 <__array_function__ internals>:177(copyto)
+ 11413476   13.987    0.000   16.988    0.000 C:\Users\Georg\anaconda3\Lib\random.py:235(_randbelow_with_getrandbits)
+ 35382446   12.081    0.000   12.081    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:2031(warn_if_insufficient)
+ 35382446   10.901    0.000   10.901    0.000 {built-in method builtins.max}
+  2961590    8.033    0.000    8.033    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:331(<listcomp>)
+ 49935235    7.832    0.000    7.832    0.000 {built-in method builtins.bin}
+ 69779508    7.823    0.000    7.823    0.000 {built-in method _operator.index}
+ 63452896    6.393    0.000    6.393    0.000 {built-in method builtins.len}
+  8931786    4.460    0.000    4.460    0.000 {built-in method numpy.zeros}
+ 20829657    4.286    0.000    4.286    0.000 {method 'zfill' of 'str' objects}
+ 17769540    4.142    0.000    4.142    0.000 {built-in method _struct.pack}
+ 17769540    3.255    0.000    3.255    0.000 {built-in method _struct.unpack}
+  4628910    2.669    0.000    2.669    0.000 {method 'reshape' of 'numpy.ndarray' objects}
+  8930893    2.280    0.000    2.280    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\polynomial.py:700(_polyval_dispatcher)
+  8930893    2.213    0.000    2.213    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\multiarray.py:1079(copyto)
+  8935358    1.963    0.000    1.963    0.000 {built-in method builtins.isinstance}
+  8930893    1.892    0.000    1.892    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:73(_zeros_like_dispatcher)
+      893    1.846    0.002    1.846    0.002 {built-in method numpy.array}
+  8930893    1.837    0.000    1.837    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\multiarray.py:84(empty_like)
+ 14415586    1.774    0.000    1.774    0.000 {method 'getrandbits' of '_random.Random' objects}
+  5923180    1.676    0.000    1.676    0.000 {method 'join' of 'str' objects}
+ 13563375    1.625    0.000    1.625    0.000 {built-in method numpy.asanyarray}
+  8930893    1.492    0.000    1.492    0.000 {built-in method numpy.asarray}
+ 13558910    1.491    0.000    1.491    0.000 {method 'random' of '_random.Random' objects}
+      893    0.008    0.000    1.434    0.002 <__array_function__ internals>:177(sum)
+     1786    0.019    0.000    1.434    0.001 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:69(_wrapreduction)
+      893    0.009    0.000    1.418    0.002 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2188(sum)
+     2679    1.416    0.001    1.416    0.001 {method 'reduce' of 'numpy.ufunc' objects}
+ 11413476    1.228    0.000    1.228    0.000 {method 'bit_length' of 'int' objects}
+  4629803    1.121    0.000    1.121    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:5440(_append_dispatcher)
+  4629803    0.977    0.000    0.977    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\multiarray.py:152(concatenate)
+      893    0.003    0.000    0.454    0.001 <__array_function__ internals>:177(argsort)
+  2961590    0.450    0.000    0.450    0.000 {method 'append' of 'list' objects}
+      893    0.003    0.000    0.448    0.001 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:1038(argsort)
+      893    0.002    0.000    0.445    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:51(_wrapfunc)
+      893    0.442    0.000    0.442    0.000 {method 'argsort' of 'numpy.ndarray' objects}
+      893    0.005    0.000    0.063    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:57(calculateAverageFitness)
+      893    0.003    0.000    0.057    0.000 <__array_function__ internals>:177(average)
+      893    0.005    0.000    0.048    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:396(average)
+      893    0.004    0.000    0.041    0.000 {method 'mean' of 'numpy.ndarray' objects}
+      893    0.005    0.000    0.041    0.000 <__array_function__ internals>:177(amin)
+      893    0.013    0.000    0.037    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\_methods.py:164(_mean)
+      893    0.006    0.000    0.032    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2829(amin)
+      893    0.012    0.000    0.013    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\_methods.py:67(_count_reduce_items)
+      893    0.006    0.000    0.006    0.000 {built-in method numpy.arange}
+     1786    0.005    0.000    0.005    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:70(<dictcomp>)
+     1786    0.001    0.000    0.001    0.000 {method 'items' of 'dict' objects}
+      893    0.001    0.000    0.001    0.000 {built-in method builtins.hasattr}
+      893    0.001    0.000    0.001    0.000 {built-in method numpy.core._multiarray_umath.normalize_axis_index}
+      893    0.001    0.000    0.001    0.000 {built-in method builtins.getattr}
+     1786    0.001    0.000    0.001    0.000 {built-in method builtins.issubclass}
+      893    0.000    0.000    0.000    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2183(_sum_dispatcher)
+      893    0.000    0.000    0.000    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2824(_amin_dispatcher)
+      893    0.000    0.000    0.000    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:391(_average_dispatcher)
+      893    0.000    0.000    0.000    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:1034(_argsort_dispatcher)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+
+population_count: 10000 random_select: 0.61     Min Fitness: 0.00       Avg Fitness: 42028606323.90     Generations: 893.0
+         1659879331 function calls (1583657133 primitive calls) in 2615.305 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     2161    0.888    0.000 1501.043    0.695 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:336(evolve)
+     2161  109.343    0.051 1168.237    0.541 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:303(crossoverBitwise)
+     2161    0.040    0.000 1114.110    0.516 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:194(calculateMinFitness)
+     6483    1.460    0.000 1113.980    0.172 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:409(getFitness)
+     2161  113.451    0.052 1112.516    0.515 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:157(calculateFitnessesPolynomially)
+109228718/33006520  203.318    0.000 1074.860    0.000 {built-in method numpy.core._multiarray_umath.implement_array_function}
+ 21612161   48.037    0.000  995.539    0.000 <__array_function__ internals>:177(polyval)
+ 21612161  538.018    0.000  906.761    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\polynomial.py:704(polyval)
+ 83819352  150.224    0.000  640.351    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:386(getBinaryRepresentationOfGene)
+ 83819352  384.415    0.000  490.126    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:1959(binary_repr)
+  6984946   77.139    0.000  400.320    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:326(<listcomp>)
+  6984946   74.972    0.000  392.142    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:327(<listcomp>)
+ 21612161   44.295    0.000  357.985    0.000 <__array_function__ internals>:177(zeros_like)
+ 21612161   94.664    0.000  275.128    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:77(zeros_like)
+     2161   51.650    0.024  218.433    0.101 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:27(addRandomIndividuals)
+ 27421948   44.888    0.000  174.122    0.000 C:\Users\Georg\anaconda3\Lib\random.py:358(randint)
+ 11385715   25.640    0.000  156.577    0.000 <__array_function__ internals>:177(append)
+  6984946   66.001    0.000  143.582    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:332(<listcomp>)
+ 27421948   81.764    0.000  129.234    0.000 C:\Users\Georg\anaconda3\Lib\random.py:284(randrange)
+     2161   28.969    0.013  112.245    0.052 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:460(mutate)
+ 11385715   24.421    0.000  110.619    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:5444(append)
+ 21612161   51.190    0.000   90.826    0.000 <__array_function__ internals>:177(empty_like)
+ 11385715   25.998    0.000   84.593    0.000 <__array_function__ internals>:177(concatenate)
+ 21612161   48.163    0.000   78.724    0.000 <__array_function__ internals>:177(copyto)
+ 41909676   60.093    0.000   77.581    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:398(getSignedIntegerRepresentationOfGene)
+ 27421948   33.550    0.000   40.715    0.000 C:\Users\Georg\anaconda3\Lib\random.py:235(_randbelow_with_getrandbits)
+ 83357436   28.442    0.000   28.442    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:2031(warn_if_insufficient)
+ 83357436   25.650    0.000   25.650    0.000 {built-in method builtins.max}
+  6984946   18.963    0.000   18.963    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:331(<listcomp>)
+166085196   18.606    0.000   18.606    0.000 {built-in method _operator.index}
+117015718   18.353    0.000   18.353    0.000 {built-in method builtins.bin}
+149363832   15.024    0.000   15.024    0.000 {built-in method builtins.len}
+ 21614322   10.971    0.000   10.971    0.000 {built-in method numpy.zeros}
+ 49699154   10.217    0.000   10.217    0.000 {method 'zfill' of 'str' objects}
+ 41909676    9.798    0.000    9.798    0.000 {built-in method _struct.pack}
+ 41909676    7.690    0.000    7.690    0.000 {built-in method _struct.unpack}
+ 11383554    6.507    0.000    6.507    0.000 {method 'reshape' of 'numpy.ndarray' objects}
+ 21612161    5.534    0.000    5.534    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\polynomial.py:700(_polyval_dispatcher)
+ 21612161    5.376    0.000    5.376    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\multiarray.py:1079(copyto)
+ 21622966    4.804    0.000    4.804    0.000 {built-in method builtins.isinstance}
+ 21612161    4.609    0.000    4.609    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:73(_zeros_like_dispatcher)
+     2161    4.452    0.002    4.452    0.002 {built-in method numpy.array}
+ 21612161    4.450    0.000    4.450    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\multiarray.py:84(empty_like)
+ 34447670    4.233    0.000    4.233    0.000 {method 'getrandbits' of '_random.Random' objects}
+ 33004359    3.978    0.000    3.978    0.000 {built-in method numpy.asanyarray}
+ 13969892    3.944    0.000    3.944    0.000 {method 'join' of 'str' objects}
+ 32993554    3.617    0.000    3.617    0.000 {method 'random' of '_random.Random' objects}
+ 21612161    3.595    0.000    3.595    0.000 {built-in method numpy.asarray}
+     2161    0.020    0.000    3.450    0.002 <__array_function__ internals>:177(sum)
+     4322    0.046    0.000    3.448    0.001 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:69(_wrapreduction)
+     2161    0.022    0.000    3.412    0.002 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2188(sum)
+     6483    3.407    0.001    3.407    0.001 {method 'reduce' of 'numpy.ufunc' objects}
+ 27421948    2.933    0.000    2.933    0.000 {method 'bit_length' of 'int' objects}
+ 11385715    2.765    0.000    2.765    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:5440(_append_dispatcher)
+ 11385715    2.405    0.000    2.405    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\multiarray.py:152(concatenate)
+     2161    0.008    0.000    1.087    0.001 <__array_function__ internals>:177(argsort)
+     2161    0.008    0.000    1.072    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:1038(argsort)
+     2161    0.005    0.000    1.064    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:51(_wrapfunc)
+     2161    1.058    0.000    1.058    0.000 {method 'argsort' of 'numpy.ndarray' objects}
+  6984946    1.055    0.000    1.055    0.000 {method 'append' of 'list' objects}
+     2161    0.011    0.000    0.152    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:57(calculateAverageFitness)
+     2161    0.008    0.000    0.137    0.000 <__array_function__ internals>:177(average)
+     2161    0.011    0.000    0.115    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:396(average)
+     2161    0.010    0.000    0.099    0.000 {method 'mean' of 'numpy.ndarray' objects}
+     2161    0.012    0.000    0.097    0.000 <__array_function__ internals>:177(amin)
+     2161    0.032    0.000    0.089    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\_methods.py:164(_mean)
+     2161    0.015    0.000    0.076    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2829(amin)
+     2161    0.029    0.000    0.031    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\_methods.py:67(_count_reduce_items)
+     2161    0.014    0.000    0.014    0.000 {built-in method numpy.arange}
+     4322    0.012    0.000    0.012    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:70(<dictcomp>)
+     4322    0.003    0.000    0.003    0.000 {method 'items' of 'dict' objects}
+     2161    0.003    0.000    0.003    0.000 {built-in method builtins.hasattr}
+     2161    0.002    0.000    0.002    0.000 {built-in method numpy.core._multiarray_umath.normalize_axis_index}
+     2161    0.002    0.000    0.002    0.000 {built-in method builtins.getattr}
+     4322    0.001    0.000    0.001    0.000 {built-in method builtins.issubclass}
+     2161    0.001    0.000    0.001    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2183(_sum_dispatcher)
+     2161    0.001    0.000    0.001    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2824(_amin_dispatcher)
+     2161    0.001    0.000    0.001    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:391(_average_dispatcher)
+     2161    0.001    0.000    0.001    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:1034(_argsort_dispatcher)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+
+population_count: 10000 random_select: 0.62     Min Fitness: 0.00       Avg Fitness: 44352189114.88     Generations: 2161.0
+         832691137 function calls (793796935 primitive calls) in 1323.328 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     1100    0.443    0.000  754.405    0.686 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:336(evolve)
+     1100   54.574    0.050  581.940    0.529 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:303(crossoverBitwise)
+     1100    0.020    0.000  568.846    0.517 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:194(calculateMinFitness)
+     3300    0.741    0.000  568.780    0.172 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:409(getFitness)
+     1100   58.013    0.053  568.037    0.516 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:157(calculateFitnessesPolynomially)
+55790604/16896402  104.491    0.000  549.670    0.000 {built-in method numpy.core._multiarray_umath.implement_array_function}
+ 11001100   24.500    0.000  508.230    0.000 <__array_function__ internals>:177(polyval)
+ 11001100  274.428    0.000  462.999    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\polynomial.py:704(polyval)
+ 41522376   75.246    0.000  319.045    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:386(getBinaryRepresentationOfGene)
+ 41522376  191.277    0.000  243.799    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:1959(binary_repr)
+  3460198   38.368    0.000  199.401    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:326(<listcomp>)
+  3460198   37.280    0.000  195.292    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:327(<listcomp>)
+ 11001100   22.634    0.000  183.018    0.000 <__array_function__ internals>:177(zeros_like)
+ 11001100   48.262    0.000  140.471    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:77(zeros_like)
+     1100   26.813    0.024  113.198    0.103 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:27(addRandomIndividuals)
+ 13855662   22.719    0.000   88.396    0.000 C:\Users\Georg\anaconda3\Lib\random.py:358(randint)
+  5890902   13.269    0.000   81.064    0.000 <__array_function__ internals>:177(append)
+  3460198   32.898    0.000   71.463    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:332(<listcomp>)
+ 13855662   41.589    0.000   65.677    0.000 C:\Users\Georg\anaconda3\Lib\random.py:284(randrange)
+     1100   15.000    0.014   58.196    0.053 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:460(mutate)
+  5890902   12.692    0.000   57.285    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:5444(append)
+ 11001100   26.147    0.000   46.454    0.000 <__array_function__ internals>:177(empty_like)
+  5890902   13.494    0.000   43.764    0.000 <__array_function__ internals>:177(concatenate)
+ 11001100   24.564    0.000   40.171    0.000 <__array_function__ internals>:177(copyto)
+ 20761188   29.844    0.000   38.565    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:398(getSignedIntegerRepresentationOfGene)
+ 13855662   17.035    0.000   20.660    0.000 C:\Users\Georg\anaconda3\Lib\random.py:235(_randbelow_with_getrandbits)
+ 41320792   14.159    0.000   14.159    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:2031(warn_if_insufficient)
+ 41320792   12.681    0.000   12.681    0.000 {built-in method builtins.max}
+  3460198    9.448    0.000    9.448    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:331(<listcomp>)
+ 83089362    9.290    0.000    9.290    0.000 {built-in method _operator.index}
+ 57773774    9.124    0.000    9.124    0.000 {built-in method builtins.bin}
+ 74049077    7.509    0.000    7.509    0.000 {built-in method builtins.len}
+ 11002200    5.613    0.000    5.613    0.000 {built-in method numpy.zeros}
+ 24867810    5.143    0.000    5.143    0.000 {method 'zfill' of 'str' objects}
+ 20761188    4.901    0.000    4.901    0.000 {built-in method _struct.pack}
+ 20761188    3.821    0.000    3.821    0.000 {built-in method _struct.unpack}
+  5889802    3.387    0.000    3.387    0.000 {method 'reshape' of 'numpy.ndarray' objects}
+ 11001100    2.817    0.000    2.817    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\polynomial.py:700(_polyval_dispatcher)
+ 11001100    2.740    0.000    2.740    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\multiarray.py:1079(copyto)
+ 11006600    2.470    0.000    2.470    0.000 {built-in method builtins.isinstance}
+ 11001100    2.355    0.000    2.355    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:73(_zeros_like_dispatcher)
+ 11001100    2.275    0.000    2.275    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\multiarray.py:84(empty_like)
+     1100    2.214    0.002    2.214    0.002 {built-in method numpy.array}
+ 17308959    2.140    0.000    2.140    0.000 {method 'getrandbits' of '_random.Random' objects}
+ 16895302    2.063    0.000    2.063    0.000 {built-in method numpy.asanyarray}
+  6920396    1.997    0.000    1.997    0.000 {method 'join' of 'str' objects}
+ 16889802    1.876    0.000    1.876    0.000 {method 'random' of '_random.Random' objects}
+ 11001100    1.856    0.000    1.856    0.000 {built-in method numpy.asarray}
+     1100    0.010    0.000    1.755    0.002 <__array_function__ internals>:177(sum)
+     2200    0.023    0.000    1.753    0.001 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:69(_wrapreduction)
+     1100    0.011    0.000    1.735    0.002 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2188(sum)
+     3300    1.732    0.001    1.732    0.001 {method 'reduce' of 'numpy.ufunc' objects}
+ 13855662    1.486    0.000    1.486    0.000 {method 'bit_length' of 'int' objects}
+  5890902    1.437    0.000    1.437    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:5440(_append_dispatcher)
+  5890902    1.247    0.000    1.247    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\multiarray.py:152(concatenate)
+     1100    0.004    0.000    0.551    0.001 <__array_function__ internals>:177(argsort)
+     1100    0.004    0.000    0.544    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:1038(argsort)
+     1100    0.002    0.000    0.540    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:51(_wrapfunc)
+     1100    0.537    0.000    0.537    0.000 {method 'argsort' of 'numpy.ndarray' objects}
+  3460198    0.529    0.000    0.529    0.000 {method 'append' of 'list' objects}
+     1100    0.006    0.000    0.077    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:57(calculateAverageFitness)
+     1100    0.004    0.000    0.069    0.000 <__array_function__ internals>:177(average)
+     1100    0.006    0.000    0.058    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:396(average)
+     1100    0.005    0.000    0.050    0.000 {method 'mean' of 'numpy.ndarray' objects}
+     1100    0.006    0.000    0.049    0.000 <__array_function__ internals>:177(amin)
+     1100    0.016    0.000    0.045    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\_methods.py:164(_mean)
+     1100    0.007    0.000    0.039    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2829(amin)
+     1100    0.015    0.000    0.016    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\_methods.py:67(_count_reduce_items)
+     1100    0.007    0.000    0.007    0.000 {built-in method numpy.arange}
+     2200    0.006    0.000    0.006    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:70(<dictcomp>)
+     2200    0.002    0.000    0.002    0.000 {method 'items' of 'dict' objects}
+     1100    0.001    0.000    0.001    0.000 {built-in method builtins.hasattr}
+     1100    0.001    0.000    0.001    0.000 {built-in method numpy.core._multiarray_umath.normalize_axis_index}
+     1100    0.001    0.000    0.001    0.000 {built-in method builtins.getattr}
+     2200    0.001    0.000    0.001    0.000 {built-in method builtins.issubclass}
+     1100    0.001    0.000    0.001    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2183(_sum_dispatcher)
+     1100    0.000    0.000    0.000    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2824(_amin_dispatcher)
+     1100    0.000    0.000    0.000    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:391(_average_dispatcher)
+     1100    0.000    0.000    0.000    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:1034(_argsort_dispatcher)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+
+population_count: 10000 random_select: 0.63     Min Fitness: 0.00       Avg Fitness: 46636941010.12     Generations: 1100.0
+         1104911983 function calls (1052419166 primitive calls) in 1761.645 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     1481    0.602    0.000  996.163    0.673 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:336(evolve)
+     1481    0.027    0.000  765.375    0.517 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:194(calculateMinFitness)
+     4443    1.002    0.000  765.286    0.172 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:409(getFitness)
+     1481   77.938    0.053  764.282    0.516 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:157(calculateFitnessesPolynomially)
+     1481   71.284    0.048  760.366    0.513 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:303(crossoverBitwise)
+75368596/22875779  141.966    0.000  741.696    0.000 {built-in method numpy.core._multiarray_umath.implement_array_function}
+ 14811481   32.950    0.000  683.918    0.000 <__array_function__ internals>:177(polyval)
+ 14811481  369.227    0.000  622.932    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\polynomial.py:704(polyval)
+ 54379284   97.778    0.000  416.117    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:386(getBinaryRepresentationOfGene)
+ 54379284  249.273    0.000  318.339    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:1959(binary_repr)
+  4531607   50.346    0.000  260.360    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:326(<listcomp>)
+  4531607   48.926    0.000  255.030    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:327(<listcomp>)
+ 14811481   30.457    0.000  246.283    0.000 <__array_function__ internals>:177(zeros_like)
+ 14811481   65.010    0.000  189.063    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:77(zeros_like)
+     1481   36.540    0.025  155.207    0.105 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:27(addRandomIndividuals)
+ 18520316   30.429    0.000  117.816    0.000 C:\Users\Georg\anaconda3\Lib\random.py:358(randint)
+  8058374   18.165    0.000  111.416    0.000 <__array_function__ internals>:177(append)
+  4531607   42.995    0.000   93.609    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:332(<listcomp>)
+ 18520316   55.340    0.000   87.386    0.000 C:\Users\Georg\anaconda3\Lib\random.py:284(randrange)
+     1481   20.386    0.014   79.146    0.053 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:460(mutate)
+  8058374   17.424    0.000   78.839    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:5444(append)
+ 14811481   35.134    0.000   62.428    0.000 <__array_function__ internals>:177(empty_like)
+  8058374   18.498    0.000   60.276    0.000 <__array_function__ internals>:177(concatenate)
+ 14811481   33.084    0.000   54.110    0.000 <__array_function__ internals>:177(copyto)
+ 27189642   39.147    0.000   50.614    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:398(getSignedIntegerRepresentationOfGene)
+ 18520316   22.664    0.000   27.481    0.000 C:\Users\Georg\anaconda3\Lib\random.py:235(_randbelow_with_getrandbits)
+ 54121536   18.551    0.000   18.551    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:2031(warn_if_insufficient)
+ 54121536   16.858    0.000   16.858    0.000 {built-in method builtins.max}
+  4531607   12.357    0.000   12.357    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:331(<listcomp>)
+109940232   12.226    0.000   12.226    0.000 {built-in method _operator.index}
+ 75587910   11.950    0.000   11.950    0.000 {built-in method builtins.bin}
+ 97246176    9.888    0.000    9.888    0.000 {built-in method builtins.len}
+ 14812962    7.554    0.000    7.554    0.000 {built-in method numpy.zeros}
+ 32655162    6.750    0.000    6.750    0.000 {method 'zfill' of 'str' objects}
+ 27189642    6.423    0.000    6.423    0.000 {built-in method _struct.pack}
+ 27189642    5.044    0.000    5.044    0.000 {built-in method _struct.unpack}
+  8056893    4.642    0.000    4.642    0.000 {method 'reshape' of 'numpy.ndarray' objects}
+ 14811481    3.795    0.000    3.795    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\polynomial.py:700(_polyval_dispatcher)
+ 14811481    3.692    0.000    3.692    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\multiarray.py:1079(copyto)
+ 14818886    3.311    0.000    3.311    0.000 {built-in method builtins.isinstance}
+ 14811481    3.156    0.000    3.156    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\numeric.py:73(_zeros_like_dispatcher)
+ 14811481    3.060    0.000    3.060    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\multiarray.py:84(empty_like)
+     1481    2.955    0.002    2.955    0.002 {built-in method numpy.array}
+ 23029051    2.838    0.000    2.838    0.000 {method 'getrandbits' of '_random.Random' objects}
+ 22874298    2.784    0.000    2.784    0.000 {built-in method numpy.asanyarray}
+  9063214    2.591    0.000    2.591    0.000 {method 'join' of 'str' objects}
+ 22866893    2.549    0.000    2.549    0.000 {method 'random' of '_random.Random' objects}
+ 14811481    2.475    0.000    2.475    0.000 {built-in method numpy.asarray}
+     1481    0.014    0.000    2.375    0.002 <__array_function__ internals>:177(sum)
+     2962    0.032    0.000    2.373    0.001 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:69(_wrapreduction)
+     1481    0.015    0.000    2.348    0.002 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2188(sum)
+     4443    2.345    0.001    2.345    0.001 {method 'reduce' of 'numpy.ufunc' objects}
+ 18520316    1.979    0.000    1.979    0.000 {method 'bit_length' of 'int' objects}
+  8058374    1.967    0.000    1.967    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:5440(_append_dispatcher)
+  8058374    1.703    0.000    1.703    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\multiarray.py:152(concatenate)
+     1481    0.006    0.000    0.738    0.000 <__array_function__ internals>:177(argsort)
+     1481    0.005    0.000    0.728    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:1038(argsort)
+     1481    0.003    0.000    0.722    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:51(_wrapfunc)
+     1481    0.716    0.000    0.716    0.000 {method 'argsort' of 'numpy.ndarray' objects}
+  4531607    0.698    0.000    0.698    0.000 {method 'append' of 'list' objects}
+     1481    0.008    0.000    0.106    0.000 C:\Users\Georg\OneDrive\Documents\Education\University\Semester 7\EE40098 Computational Intelligence\Coursework\Coursework B\./scripts\GeneticAlgorithm.py:57(calculateAverageFitness)
+     1481    0.006    0.000    0.095    0.000 <__array_function__ internals>:177(average)
+     1481    0.008    0.000    0.079    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:396(average)
+     1481    0.007    0.000    0.068    0.000 {method 'mean' of 'numpy.ndarray' objects}
+     1481    0.008    0.000    0.067    0.000 <__array_function__ internals>:177(amin)
+     1481    0.022    0.000    0.061    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\_methods.py:164(_mean)
+     1481    0.010    0.000    0.052    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2829(amin)
+     1481    0.020    0.000    0.021    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\_methods.py:67(_count_reduce_items)
+     1481    0.010    0.000    0.010    0.000 {built-in method numpy.arange}
+     2962    0.009    0.000    0.009    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:70(<dictcomp>)
+     1481    0.003    0.000    0.003    0.000 {built-in method builtins.getattr}
+     2962    0.002    0.000    0.002    0.000 {method 'items' of 'dict' objects}
+     1481    0.002    0.000    0.002    0.000 {built-in method builtins.hasattr}
+     1481    0.001    0.000    0.001    0.000 {built-in method numpy.core._multiarray_umath.normalize_axis_index}
+     2962    0.001    0.000    0.001    0.000 {built-in method builtins.issubclass}
+     1481    0.001    0.000    0.001    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2183(_sum_dispatcher)
+     1481    0.001    0.000    0.001    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:2824(_amin_dispatcher)
+     1481    0.000    0.000    0.000    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\lib\function_base.py:391(_average_dispatcher)
+     1481    0.000    0.000    0.000    0.000 C:\Users\Georg\anaconda3\Lib\site-packages\numpy\core\fromnumeric.py:1034(_argsort_dispatcher)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+
+
+
+population_count: 10000 random_select: 0.64     Min Fitness: 0.00       Avg Fitness: 46985904355.04     Generations: 1481.0
