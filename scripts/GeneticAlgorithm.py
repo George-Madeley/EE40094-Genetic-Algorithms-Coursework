@@ -7,7 +7,7 @@ class GeneticAlgorithm:
     """
     A genetic algorithm that evolves a population of individuals to find the best solution to a problem.
     """
-    def __init__(self, population_size, individual_length, min, max):
+    def __init__(self, population_size, individual_length, min, max, retain=0.2, random_select=0.05, mutate=0.01):
         """
         Create a genetic algorithm.
 
@@ -20,34 +20,31 @@ class GeneticAlgorithm:
         self.individual_length = individual_length
         self.min = min
         self.max = max
+        self.retain = retain
+        self.random_select = random_select
+        self.mutate = mutate
         self.population = self.generatePopulation()
         self.fitness = 0
 
     def addRandomIndividuals(
-            self,
-            sortedIndividuals,
-            random_select,
-            retain_length):
+            self):
         """
         Add random individuals to the population.
 
-        :param sortedIndividuals: the individuals sorted by fitness
         :param random_select: the probability that each individual will be randomly selected
         :param retain_length: the number of individuals that should be retained without change between generations
 
         :returns: the parents to be used for the next generation
         """
-        # Retain the best individuals
-        parents = sortedIndividuals[:retain_length]
 
         # randomly add other individuals to promote genetic diversity
-        for individual in sortedIndividuals[retain_length:]:
+        for individual in self.population:
             # random_select is the probability that the individual will
             # be added to the parents list (i.e. retained for the next
             # generation). This probability will be higher for individuals
             # with a high fitness, so these individuals are more likely to
             # be parents.
-            if random_select > random() and len(parents) < self.population_size - 1:
+            if self.random_select > random() and len(parents) < self.population_size - 1:
                 parents = np.append(
                     parents, individual.reshape(
                         (1, 6)), axis=0)
@@ -83,7 +80,7 @@ class GeneticAlgorithm:
         schema_fitness = total_schema_fitness / num_of_schema_matches
         return schema_fitness
 
-    def calculateCrossoverEffect(self, schema, retain=0.2):
+    def calculateCrossoverEffect(self, schema):
         """
         Calculate the effect of crossover on the schema.
 
@@ -94,11 +91,11 @@ class GeneticAlgorithm:
         """
         defining_length = self.calculateSchemaDefiningLength(schema)
         pc1 = defining_length / (len(schema) - 1)
-        pc = 1 - retain
+        pc = 1 - self.retain
         crossover_effect = 1 - pc * pc1
         return crossover_effect
 
-    def calculateExpectedNumIndividualsInSchema(self, schema, target, retain=0.2, mutate=0.01):
+    def calculateExpectedNumIndividualsInSchema(self, schema, target):
         """
         Calculate the expected number of individuals in the population that match the schema.
         
@@ -112,8 +109,8 @@ class GeneticAlgorithm:
         numOfIndividualsInSchema = self.calculateNumIndividualsInSchema(schema)
         avgSchemaFitness = self.calculateAverageSchemaFitness(schema, target)
         avgPopulationFitness = self.calculateAverageFitness(target)
-        crossoverEffect = self.calculateCrossoverEffect(schema, retain)
-        mutationEffect = self.calculateMutationEffect(schema, mutate)
+        crossoverEffect = self.calculateCrossoverEffect(schema)
+        mutationEffect = self.calculateMutationEffect(schema)
         selectionEffect = 1 / (avgSchemaFitness / avgPopulationFitness)
         expectedNumIndividualsInSchema = numOfIndividualsInSchema * crossoverEffect * mutationEffect * selectionEffect
         return expectedNumIndividualsInSchema
@@ -204,7 +201,7 @@ class GeneticAlgorithm:
         # Return the min fitness of the population
         return minGrade
 
-    def calculateMutationEffect(self, schema, mutate=0.01):
+    def calculateMutationEffect(self, schema):
         """
         Calculate the effect of mutation on the schema.
 
@@ -214,7 +211,7 @@ class GeneticAlgorithm:
         :returns: the effect of mutation on the schema
         """
         schema_order = self.calculateSchemaOrder(schema)
-        return (1 - mutate) ** schema_order
+        return (1 - self.mutate) ** schema_order
 
     def calculateNumIndividualsInSchema(self, schema):
         """
@@ -237,7 +234,13 @@ class GeneticAlgorithm:
         :param schema: the schema to calculate the defining length of
 
         :returns: the defining length of the schema
+
+        :raises Exception: if the schema contains invalid characters
         """
+        # Check that the schema only contains 0s, 1s, and .
+        if re.match("^[01.]+$", schema) is None:
+            raise Exception("Invalid schema: {}. Use \'.\' instead of \'*\'".format(schema))
+
         defining_length = len(schema.strip(".")) - 1
         return defining_length
 
@@ -248,7 +251,13 @@ class GeneticAlgorithm:
         :param schema: the schema to calculate the order of
         
         :returns: the order of the schema
+
+        :raises Exception: if the schema contains invalid characters
         """
+        # Check that the schema only contains 0s, 1s, and .
+        if re.match("^[01.]+$", schema) is None:
+            raise Exception("Invalid schema: {}. Use \'.\' instead of \'*\'".format(schema))
+
         schema_order = len(schema) - schema.count(".")
         return schema_order
 
@@ -270,7 +279,26 @@ class GeneticAlgorithm:
                 total_schema_fitness += fitness
         return total_schema_fitness
 
-    def crossover(self, parents):
+    def crossover(self, parents, crossover_method="bitwise"):
+        """
+        Crossover parents to create children.
+
+        :param parents: the parents to create children from
+        :param crossover_method: the method to use to crossover parents
+
+        :returns: the children created from the parents
+
+        :raises Exception: if an invalid crossover method is given
+        """
+        if crossover_method == "elementwise":
+            children = self.crossoverElementwise(parents)
+        elif crossover_method == "bitwise":
+            children = self.crossoverBitwise(parents)
+        else:
+            raise Exception("Invalid crossover method: {}".format(crossover_method))
+        return children
+
+    def crossoverElementwise(self, parents):
         """
         Crossover parents to create children.
         
@@ -332,18 +360,52 @@ class GeneticAlgorithm:
                 children.append(child)
         return np.array(children)
 
-    def evolve(self, target, retain=0.2, random_select=0.05, mutate=0.01):
+    def evolve(self, target, selection_method="rank", crossover_method="bitwise", elitism=False):
         """
         Evolve a population some number of generations.
 
-        :param population: the population to evolve
         :param target: the sum of numbers that individuals are aiming for
-        :param retain: the portion of the population that should be retained without change between generations
-        :param random_select: the portion of the population that should randomly selected for retention
-        :param mutate: the probability of mutation for each individual gene
+        :param selection_method: the method to use to select parents
+        :param crossover_method: the method to use to crossover parents
+        :param elitism: whether or not to use elitism when evolving the population
         """
         # For each individual in the population, calculate the fitness
         # and sort the population in order of ascending fitness
+        parents = self.selectParents(target, selection_method)
+        parents = self.addRandomIndividuals(parents)
+        children = self.crossover(parents, crossover_method)
+
+        # If elitism is enabled, preserve the parents.
+        if elitism:
+            mutated_children = self.mutate(children)
+            new_population = np.append(parents, mutated_children, axis=0)
+        else:
+            new_population = np.append(parents, children, axis=0)
+            new_population = self.mutate(new_population)
+
+        self.population = new_population
+        self.fitness = 0
+
+    def selectParents(self, target, selection_method):
+        """
+        Select parents from the population.
+        
+        :param target: the sum of numbers that individuals are aiming for
+        :param selection_method: the method to use to select parents
+        
+        :returns: the parents selected from the population
+        
+        :raises Exception: if an invalid selection method is given
+        """
+        if selection_method == "rank":
+            parents = self.rankPopulation(target, self.retain, self.random_select)
+        elif selection_method == "roulette":
+            parents = self.rouletteWheelSelection(target)
+        else:
+            raise Exception("Invalid selection method: {}".format(selection_method))
+        return parents
+
+    def rankPopulation(self, target):
         fitnesss = self.getFitness(target)
         sortedfitnesssIndices = np.argsort(fitnesss)
         sortedIndividuals = self.population[sortedfitnesssIndices]
@@ -351,18 +413,42 @@ class GeneticAlgorithm:
         # parameter. Using ceil() prevents us from retaining 0 individuals
         # when the retain parameter is low. I.e. it makes sure we always
         # retain at least one individual.
-        retain_length = np.floor(self.population_size * retain)
+        retain_length = np.floor(self.population_size * self.retain)
+        retain_length = int(retain_length) if retain_length > 1 else 2
+        
+        # Retain the best individuals
+        parents = sortedIndividuals[:retain_length]
+        return parents
+    
+    def rouletteWheelSelection(self, target):
+        """
+        Select parents using roulette wheel selection.
+        
+        :param target: the sum of numbers that individuals are aiming for
+        :param retain: the portion of the population that should be retained without change between generations
+        :param random_select: the probability that each individual will be randomly selected for retention
+        
+        :returns: the parents selected using roulette wheel selection
+        """
+        # Calculate the number of individuals to retain, based on the retain
+        # parameter. Using ceil() prevents us from retaining 0 individuals
+        # when the retain parameter is low. I.e. it makes sure we always
+        # retain at least two individuals to create children.
+        retain_length = np.ceil(self.population_size * self.retain)
         retain_length = int(retain_length) if retain_length > 1 else 2
 
-        parents = self.addRandomIndividuals(
-            sortedIndividuals, random_select, retain_length)
-        parents = self.mutate(mutate, parents)
-        children = self.crossoverBitwise(parents)
+        # Calculate the fitness of each individual in the population.
+        fitnesses = self.getFitness(target)
+        # Calculate the probability of each individual being selected for
+        # retention. As lower fitnesses are better, we need to invert the
+        # fitnesses to get the probabilities.
+        fitness_sum = np.sum(fitnesses)
+        inverse_fitnesses = fitness_sum / fitnesses
+        probabilities = inverse_fitnesses / np.sum(inverse_fitnesses)
 
-        # Add children to the parents to create the next generation.
-        new_population = np.append(parents, children, axis=0)
-        self.population = new_population
-        self.fitness = 0
+        # Select the parents using roulette wheel selection.
+        parents = np.random.choice(self.population, size=retain_length, p=probabilities)
+        return parents
 
     def generatePopulation(self):
         """
@@ -390,6 +476,8 @@ class GeneticAlgorithm:
 
         :returns: the binary representation of the given gene
         """
+        if not (-127 <= gene <= 127):
+            raise Exception("Gene must be between -127 and 127")
         
         binary_gene = np.binary_repr(gene, width=8)
         return binary_gene
@@ -425,7 +513,13 @@ class GeneticAlgorithm:
         :param schema: the schema to check if the gene is a member of
 
         :returns: True if gene is a member of schema, False otherwise
+
+        :raises Exception: if the schema contains invalid characters
         """
+        # Check that the schema only contains 0s, 1s, and .
+        if re.match("^[01.]+$", schema) is None:
+            raise Exception("Invalid schema: {}. Use \'.\' instead of \'*\'".format(schema))
+        
         return re.match(schema, gene) is not None
 
     def isIndividualMemberOfSchemaGenewise(self, individual, schema):
@@ -456,28 +550,28 @@ class GeneticAlgorithm:
         isMember = self.isGeneMemberOfSchema(binary_individual, schema)
         return isMember
 
-    def mutate(self, mutate, parents):
+    def mutate(self, population):
         """
         Mutate some individuals.
 
         :param mutate: the probability that each gene will be randomly changed
-        :param parents: the parents to mutate
+        :param population: the population to mutate
 
         :returns: the mutated parents
         """
         # mutate some individuals
-        for individualIndex in range(parents.shape[0]):
+        for individualIndex in range(population.shape[0]):
             # mutate is the probability that each gene will be randomly
             # changed. This probability will be higher for individuals with
             # a low fitness, so these individuals are more likely to be
             # mutated.
-            if mutate > random():
+            if self.mutate > random():
                 mutateIndex = randint(0, self.individual_length - 1)
                 # this mutation is not ideal, because it
                 # restricts the range of possible values,
                 # but the function is unaware of the min/max
                 # values used to create the individuals,
                 # so it'll have to do for now
-                parents[individualIndex, mutateIndex] = randint(
+                population[individualIndex, mutateIndex] = randint(
                     self.min, self.max)
-        return parents
+        return population
