@@ -4,7 +4,18 @@ import re
 import struct
 
 class GeneticAlgorithm:
+    """
+    A genetic algorithm that evolves a population of individuals to find the best solution to a problem.
+    """
     def __init__(self, population_size, individual_length, min, max):
+        """
+        Create a genetic algorithm.
+
+        :param population_size: the number of individuals in the population
+        :param individual_length: the number of values per individual
+        :param min: the minimum possible value in an individual's list of values
+        :param max: the maximum possible value in an individual's list of values
+        """
         self.population_size = population_size
         self.individual_length = individual_length
         self.min = min
@@ -20,9 +31,11 @@ class GeneticAlgorithm:
         """
         Add random individuals to the population.
 
-        sortedIndividuals: the individuals sorted by fitness
-        random_select: the probability that each individual will be randomly selected
-        retain_length: the number of individuals that should be retained without change between generations
+        :param sortedIndividuals: the individuals sorted by fitness
+        :param random_select: the probability that each individual will be randomly selected
+        :param retain_length: the number of individuals that should be retained without change between generations
+
+        :returns: the parents to be used for the next generation
         """
         # Retain the best individuals
         parents = sortedIndividuals[:retain_length]
@@ -41,7 +54,13 @@ class GeneticAlgorithm:
         return parents
 
     def calculateAverageFitness(self, target):
-        "Find average fitness for a population."
+        """
+        Find average fitness for a population.
+        
+        :param target: the sum of numbers that individuals are aiming for.
+
+        :returns: the average fitness of the population
+        """
         fitnesses = self.getFitness(target)
         average = np.average(fitnesses)
 
@@ -51,6 +70,11 @@ class GeneticAlgorithm:
     def calculateAverageSchemaFitness(self, schema, target):
         """
         Return the average fitness of the schema.
+
+        :param schema: the schema to calculate the average fitness of
+        :param target: the sum of numbers that individuals are aiming for
+
+        :returns: the average fitness of the schema
         """
         num_of_schema_matches = self.calculateNumIndividualsInSchema(schema)
         total_schema_fitness = self.calculateTotalSchemaFitness(schema, target)
@@ -63,8 +87,10 @@ class GeneticAlgorithm:
         """
         Calculate the effect of crossover on the schema.
 
-        schema: the schema to calculate the effect of crossover on
-        retain: the portion of the population that should be retained without change between generations
+        :param schema: the schema to calculate the effect of crossover on
+        :param retain: the portion of the population that should be retained without change between generations
+
+        :returns: the effect of crossover on the schema
         """
         defining_length = self.calculateSchemaDefiningLength(schema)
         pc1 = defining_length / (len(schema) - 1)
@@ -73,6 +99,16 @@ class GeneticAlgorithm:
         return crossover_effect
 
     def calculateExpectedNumIndividualsInSchema(self, schema, target, retain=0.2, mutate=0.01):
+        """
+        Calculate the expected number of individuals in the population that match the schema.
+        
+        :param schema: the schema to calculate the expected number of individuals in the population that match
+        :param target: the sum of numbers that individuals are aiming for
+        :param retain: the portion of the population that should be retained without change between generations
+        :param mutate: the probability of mutation for each individual gene
+        
+        :returns: the expected number of individuals in the next generation that match the schema
+        """
         numOfIndividualsInSchema = self.calculateNumIndividualsInSchema(schema)
         avgSchemaFitness = self.calculateAverageSchemaFitness(schema, target)
         avgPopulationFitness = self.calculateAverageFitness(target)
@@ -85,6 +121,11 @@ class GeneticAlgorithm:
     def calculateFitnesses(self, target, population=None):
         """
         Calculate the fitness of each individual in the population.
+
+        :param target: the sum of numbers that individuals are aiming for
+        :param population: the population to calculate the fitness of
+
+        :returns: the fitness of each individual in the population
         """
         if population is None:
             population = self.population
@@ -96,6 +137,11 @@ class GeneticAlgorithm:
     def calculateFitnessesElementwise(self, target, population=None):
         """
         Calculate the fitness of each individual in the population.
+
+        :param target: the sum of numbers that individuals are aiming for
+        :param population: the population to calculate the fitness of
+
+        :returns: the fitness of each individual in the population
         """
         if population is None:
             population = self.population
@@ -110,6 +156,14 @@ class GeneticAlgorithm:
     def calculateFitnessesPolynomially(self, target, population=None, min_x=-100, max_x=100, step=1):
         """
         Calculate the fitness of each individual in the population.
+
+        :param target: the sum of numbers that individuals are aiming for
+        :param population: the population to calculate the fitness of
+        :param min_x: the minimum x value to calculate the fitness for
+        :param max_x: the maximum x value to calculate the fitness for
+        :param step: the step size to use when calculating the fitness
+
+        :returns: the fitness of each individual in the population
         """
         if population is None:
             population = self.population
@@ -137,7 +191,13 @@ class GeneticAlgorithm:
         return fitness
 
     def calculateMinFitness(self, target):
-        "Find minimum fitness for a population."
+        """
+        Find minimum fitness for a population.
+        
+        :param target: the sum of numbers that individuals are aiming for
+        
+        :returns: the minimum fitness of the population
+        """
         fitnesses = self.getFitness(target)
         minGrade = np.min(fitnesses)
 
@@ -148,8 +208,10 @@ class GeneticAlgorithm:
         """
         Calculate the effect of mutation on the schema.
 
-        schema: the schema to calculate the effect of mutation on
-        mutate: the probability of mutation for each individual gene
+        :param schema: the schema to calculate the effect of mutation on
+        :param mutate: the probability of mutation for each individual gene
+
+        :returns: the effect of mutation on the schema
         """
         schema_order = self.calculateSchemaOrder(schema)
         return (1 - mutate) ** schema_order
@@ -157,6 +219,10 @@ class GeneticAlgorithm:
     def calculateNumIndividualsInSchema(self, schema):
         """
         Return the number of individuals in the population that match the schema.
+
+        :param schema: the schema to calculate the number of individuals in the population that match
+
+        :returns: the number of individuals in the population that match the schema
         """
         num_matches = 0
         for individual in self.population:
@@ -165,16 +231,35 @@ class GeneticAlgorithm:
         return num_matches
 
     def calculateSchemaDefiningLength(self, schema):
+        """
+        Return the defining length of the schema.
+
+        :param schema: the schema to calculate the defining length of
+
+        :returns: the defining length of the schema
+        """
         defining_length = len(schema.strip(".")) - 1
         return defining_length
 
     def calculateSchemaOrder(self, schema):
+        """
+        Return the order of the schema.
+        
+        :param schema: the schema to calculate the order of
+        
+        :returns: the order of the schema
+        """
         schema_order = len(schema) - schema.count(".")
         return schema_order
 
     def calculateTotalSchemaFitness(self, schema, target):
         """
         Return the total fitness of the schema.
+
+        :param schema: the schema to calculate the total fitness of
+        :param target: the sum of numbers that individuals are aiming for
+
+        :returns: the total fitness of the schema
         """
         # Stores the index of the individual in the population
         # that are in the schema.
@@ -189,7 +274,9 @@ class GeneticAlgorithm:
         """
         Crossover parents to create children.
         
-        parents: the parents to create children from
+        :param parents: the parents to create children from
+
+        :returns: the children created from the parents
         """
         # crossover parents to create children
         numParents = len(parents)
@@ -216,7 +303,9 @@ class GeneticAlgorithm:
         """
         Crossover parents to create children.
         
-        parents: the parents to create children from
+        :param parents: the parents to create children from
+
+        :returns: the children created from the parents
         """
         # crossover parents to create children
         numParents = len(parents)
@@ -247,11 +336,11 @@ class GeneticAlgorithm:
         """
         Evolve a population some number of generations.
 
-        population: the population to evolve
-        target: the sum of numbers that individuals are aiming for
-        retain: the portion of the population that should be retained without change between generations
-        random_select: the portion of the population that should randomly selected for retention
-        mutate: the probability of mutation for each individual gene
+        :param population: the population to evolve
+        :param target: the sum of numbers that individuals are aiming for
+        :param retain: the portion of the population that should be retained without change between generations
+        :param random_select: the portion of the population that should randomly selected for retention
+        :param mutate: the probability of mutation for each individual gene
         """
         # For each individual in the population, calculate the fitness
         # and sort the population in order of ascending fitness
@@ -279,11 +368,12 @@ class GeneticAlgorithm:
         """
         Create a number of individuals (i.e. a population).
 
-        count: the number of individuals in the population
-        length: the number of values per individual
-        min: the minimum possible value in an individual's list of values
-        max: the maximum possible value in an individual's list of values
+        :param count: the number of individuals in the population
+        :param length: the number of values per individual
+        :param min: the minimum possible value in an individual's list of values
+        :param max: the maximum possible value in an individual's list of values
 
+        :returns: a population of individuals
         """
         return np.random.randint(
             self.min,
@@ -295,6 +385,10 @@ class GeneticAlgorithm:
     def getBinaryRepresentationOfGene(self, gene):
         """
         Return an 8-bit signed binary representation of the given gene.
+
+        :param gene: the gene to get the binary representation of
+
+        :returns: the binary representation of the given gene
         """
         
         binary_gene = np.binary_repr(gene, width=8)
@@ -303,11 +397,22 @@ class GeneticAlgorithm:
     def getSignedIntegerRepresentationOfGene(self, gene):
         """
         Return the signed integer representation of the given gene.
+
+        :param gene: the gene to get the signed integer representation of
+
+        :returns: the signed integer representation of the given gene
         """
         signed_gene = struct.unpack('b', struct.pack('B', int(gene, 2)))[0]
         return signed_gene
 
     def getFitness(self, target):
+        """
+        Return the fitness of each individual in the population.
+        
+        :param target: the sum of numbers that individuals are aiming for
+        
+        :returns: the fitness of each individual in the population
+        """
         self.fitness = self.fitness if isinstance(
             self.fitness, np.ndarray) else self.calculateFitnesses(target)
         return self.fitness
@@ -315,12 +420,22 @@ class GeneticAlgorithm:
     def isGeneMemberOfSchema(self, gene, schema):
         """
         Return True if gene is a member of schema, False otherwise.
+
+        :param gene: the gene to check if it is a member of the schema
+        :param schema: the schema to check if the gene is a member of
+
+        :returns: True if gene is a member of schema, False otherwise
         """
         return re.match(schema, gene) is not None
 
     def isIndividualMemberOfSchemaGenewise(self, individual, schema):
         """
         Return True if individual is a member of schema, False otherwise.
+
+        :param individual: the individual to check if it is a member of the schema
+        :param schema: the schema to check if the individual is a member of
+
+        :returns: True if individual is a member of schema, False otherwise
         """
         for gene in individual:
             binary_gene = self.getBinaryRepresentationOfGene(gene)
@@ -331,6 +446,11 @@ class GeneticAlgorithm:
     def isIndividualMemberOfSchema(self, individual, schema):
         """
         Return True if individual is a member of schema, False otherwise.
+
+        :param individual: the individual to check if it is a member of the schema
+        :param schema: the schema to check if the individual is a member of
+
+        :returns: True if individual is a member of schema, False otherwise
         """
         binary_individual = ''.join([self.getBinaryRepresentationOfGene(gene) for gene in individual])
         isMember = self.isGeneMemberOfSchema(binary_individual, schema)
@@ -339,13 +459,11 @@ class GeneticAlgorithm:
     def mutate(self, mutate, parents):
         """
         Mutate some individuals.
-        
-        mutate: the probability that each gene will be randomly
-        changed. This probability will be higher for individuals with
-        a low fitness, so these individuals are more likely to be
-        mutated.
-        
-        parents: the parents to mutate
+
+        :param mutate: the probability that each gene will be randomly changed
+        :param parents: the parents to mutate
+
+        :returns: the mutated parents
         """
         # mutate some individuals
         for individualIndex in range(parents.shape[0]):
