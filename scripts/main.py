@@ -1,6 +1,7 @@
 from GeneticAlgorithm import GeneticAlgorithm as GA
 import csv
 import numpy as np
+import cProfile, pstats, io
 
 def generateListOfSchema(schema_type=0, base_schema=r'00011001'):
     """
@@ -102,9 +103,9 @@ def test_function(
         variation_values = [retain / 100 for retain in range(2, 98)]
     elif variation_name == "random_select":
         variation_values = [random_select /
-                            100 for random_select in range(0, 100)]
+                            100 for random_select in range(60, 100)]
         
-    num_of_repeats = 10
+    num_of_repeats = 1
 
     # Run the GA for each population count
     for variation_value in variation_values:
@@ -127,18 +128,26 @@ def test_function(
 
             # Evolve the population until we reach the target or the max number of
             # generations
+            pr = cProfile.Profile()
+            pr.enable()
             while min_fitness > 0 and generation < max_num_generations:
                 if variation_name == "mutation":
                     ga.evolve(target, mutate=variation_value)
                 elif variation_name == "retain":
                     ga.evolve(target, retain=variation_value)
                 elif variation_name == "random_select":
-                    ga.evolve(target, random_select=variation_value)
+                    ga.evolve(target, random_select=variation_value, mutate=0.46, retain=0.15)
                 else:
                     ga.evolve(target)
                 min_fitness = ga.calculateMinFitness(target)
                 avg_fitness = ga.calculateAverageFitness(target)
                 generation += 1
+            pr.disable()
+            s = io.StringIO()
+            sortby = 'cumulative'
+            ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
+            ps.print_stats()
+            print(s.getvalue())
 
             total_avg_fitness += avg_fitness
             total_min_fitness += min_fitness
@@ -366,75 +375,120 @@ def singleTest(
     individual_max_value,
     population_count,
     max_num_generations,
+    fileName="./results/test.csv",
+    selection_method="rank",
+    crossover_method="bitwise",
+    fitness_method="scalar",
+    elitism=False,
+    repeats=1,
+    mutation=0.1,
+    retain=0.2,
+    random_select=0.05,
 ):
-    ga = GA(
-        population_count,
-        individual_length,
-        individual_min_value,
-        individual_max_value,
-    )
+    fieldNames = [
+        "population_count",
+        "selection_method",
+        "crossover_method",
+        "fitness_method",
+        "num_x_values",
+        "elitism",
+        "mutation",
+        "retain",
+        "random_select",
+        "num_generations",
+        "min_fitness",
+        "avg_fitness",
+    ]
+    with open(fileName, "a", newline="") as csvFile:
+            csvWriter = csv.DictWriter(
+                csvFile, fieldnames=fieldNames
+            )
+            csvWriter.writeheader()
+    for x_size in range(5, 205, 5):
+        total_min_fitness = 0
+        total_avg_fitness = 0
+        total_generations = 0
+        for rep in range(repeats):
+            ga = GA(
+                population_count,
+                individual_length,
+                individual_min_value,
+                individual_max_value,
+                fitness_method=fitness_method,
+                x_value_size=x_size,
+            )
 
-    # Run the GA
-    min_fitness = ga.calculateMinFitness(target)
-    avg_fitness = ga.calculateAverageFitness(target)
+            # Run the GA
+            min_fitness = ga.calculateMinFitness(target)
+            avg_fitness = ga.calculateAverageFitness(target)
 
-    # Evolve the population until we reach the target or the max number
-    # of generations
-    generation = 0
-    while min_fitness > 0 and generation < max_num_generations:
-        ga.evolve(target)
-        min_fitness = ga.calculateMinFitness(target)
-        avg_fitness = ga.calculateAverageFitness(target)
+            # Evolve the population until we reach the target or the max number
+            # of generations
+            generation = 0
+            while min_fitness > 0 and generation < max_num_generations:
+                ga.evolve(target)
+                min_fitness = ga.calculateMinFitness(target)
+                avg_fitness = ga.calculateAverageFitness(target)
+                generation += 1
+
+            total_min_fitness += min_fitness
+            total_avg_fitness += avg_fitness
+            total_generations += generation
+
+        avg_min_fitness = total_min_fitness / repeats
+        avg_avg_fitness = total_avg_fitness / repeats
+        avg_generations = total_generations / repeats
         # Print the results
-        min_fitness_str = "{:.2f}".format(min_fitness)
-        avg_fitness_str = "{:.2f}".format(avg_fitness)
+        min_fitness_str = "{:.2f}".format(avg_min_fitness)
+        avg_fitness_str = "{:.2f}".format(avg_avg_fitness)
         print(
-            f"Min Fitness: {min_fitness_str}\tAvg Fitness: {avg_fitness_str}\tGenerations: {generation}")
-        generation += 1
+            f"Min Fitness: {min_fitness_str}\tAvg Fitness: {avg_fitness_str}\tGenerations: {avg_generations}")
+        
+        with open(fileName, "a", newline="") as csvFile:
+            csvWriter = csv.DictWriter(
+                csvFile, fieldnames=fieldNames
+            )
+            csvWriter.writerow(
+                {
+                    "population_count": population_count,
+                    "selection_method": selection_method,
+                    "crossover_method": crossover_method,
+                    "fitness_method": fitness_method,
+                    "num_x_values": x_size,
+                    "elitism": elitism,
+                    "mutation": mutation,
+                    "retain": retain,
+                    "random_select": random_select,
+                    "num_generations": avg_generations,
+                    "min_fitness": avg_min_fitness,
+                    "avg_fitness": avg_avg_fitness,
+                }
+            )
 
 
 
-target = 550
+target = np.array([25, 18, 31, -14, 7, -19])
 # Size of the population
-population_count = 100
+population_count = 1000
 # Number of genes in an individual
 individual_length = 6
 # Min and max possible values for each gene
-individual_min_value = 0
+individual_min_value = -100
 individual_max_value = 100
 # Number of generations
 max_num_generations = 10000
 
-# test_schema_theorem(
-#     target,
-#     individual_length,
-#     individual_min_value,
-#     individual_max_value,
-#     population_count,
-#     max_num_generations,
-#     "./results/schema_theorem_5.csv",
-# )
-
-fileName = "./results/random_select.csv"
-
-with open(fileName, "w", newline="") as csvFile:
-    csvWriter = csv.DictWriter(
-        csvFile,
-        fieldnames=[
-            "population_count",
-            "random_select",
-            "num_generations",
-            "min fitness",
-            "avg fitness"])
-    csvWriter.writeheader()
-
-test_function(
+singleTest(
     target,
-    population_count,
     individual_length,
     individual_min_value,
     individual_max_value,
+    population_count,
     max_num_generations,
-    fileName,
-    "random_select",
+    fileName="./results/test.csv",
+    selection_method="rank",
+    crossover_method="elementwise",
+    fitness_method="elementwise",
+    elitism=False,
+    repeats=10,
 )
